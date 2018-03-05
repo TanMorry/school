@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+    <include file="public/head"/>
+    <title>微信公共平台后台</title>
+    <meta name="description" content="微信公共平台后台">
+    <meta name="keywords" content="微信公共平台后台">
+    
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>微信公共平台--被动回复</a></li>
+    </ul>
+    <div class="common-form">
+        <div class="well">
+            <include file="public/nav"/>                      
+        </div>
+        <h4>回复规则列表</h4>
+        <hr>
+        <div class="btn btn-default" id="new_msg" style="margin-right:2px;margin-bottom:4px;">新建回复规则</div>
+        <hr>
+        <table class="table table-bordered">
+           
+            <thead>
+                <tr>
+                    <th>接受消息类型</th>
+                    <th>关键标识</th>
+                    <th>回复消息类型</th>
+                    <th>回复内容</th>                
+                    <th>操作</th>                
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="list" id="vo">
+                <tr>
+                    <td>{$vo.intype}</td>
+                    <td>{$vo.mark}</td>
+                    <td>{$vo.outtype}</td>
+                    <td>{$vo.content}</td>
+                    <td>
+                        <div class="btn btn-default del" style="margin-right:2px;margin-bottom:4px;" void="{$vo.id}">删除</div>
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>  
+    </div>
+</div>
+
+<!-- 新建规则（Modal） -->
+<div class="modal fade" id="newguize" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">新建规则</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="firstname">规则标识（英文）</label>
+
+                    <input type="text" class="form-control" name="gname" placeholder="规则标识（英文）">
+
+                </div>
+                <div class="form-group">
+                    <label for="name">接受的消息类型</label>
+                    <select name="gintype">
+                        <option value="text">text</option>
+                        <option value="subscribe">subscribe</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">回复的消息类型</label>
+                    <select name="gouttype">
+                        <option value="text">text</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">回复的值</label>
+                    <textarea class="form-control" rows="3" name="gcontent"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary newpost">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<include file="public/scripts"/>
+</body>
+<script type="text/javascript">
+    $('#new_msg').click(function(event) {
+        $('#newguize').modal({
+            'show':true,
+            'keyboard': true
+        });
+
+        $('.newpost').click(function(){
+            var gouttype = $("select[name='gouttype']").val();
+            var gname = $("input[name='gname']").val();
+            var gintype = $("select[name='gintype']").val();
+            var gcontent = $("textarea[name='gcontent']").val();
+            $.post("{:cmf_plugin_url('Weixin://AdminIndex/passiveAdd')}",{mark:gname,outtype:gouttype,intype:gintype,content:gcontent},function(data){
+                if(data.code == 1){
+                    location.href="{:cmf_plugin_url('Weixin://AdminIndex/passiveRecovery')}";
+                }else{
+                    alert(data.msg);
+                }
+            },'json');
+        });
+    });
+
+    $('.del').click(function(){
+        if(confirm('您确定删除?')){
+            var obj = $(this);
+            var id = obj.attr('void');
+
+            $.post("{:cmf_plugin_url('Weixin://AdminIndex/passiveDelete')}",{id:id},function(data){
+                if(data.code == 1){
+                    location.href="{:cmf_plugin_url('Weixin://AdminIndex/passiveRecovery')}";
+                }else{
+                    alert(data.msg);
+                }
+            },'json');
+        }
+    });
+
+    $('select[name="gintype"]').change(function(){
+        if($(this).val() == 'subscribe'){
+
+            $('input[name="gname" ]').prev().remove();
+            $('input[name="gname" ]').remove();
+        }
+    });
+</script>
+</html>

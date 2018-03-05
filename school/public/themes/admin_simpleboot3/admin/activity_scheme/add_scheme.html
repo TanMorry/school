@@ -1,0 +1,69 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('ActivityScheme/index')}">{:lang('ADMIN_ACTIVITY_SCHEME_INDEX')}</a></li>
+			<li class="active"><a href="{:url('ActivityScheme/add_scheme')}">{:lang('ADMIN_ACTIVITY_SCHEME_ADD')}</a></li>
+		</ul>
+		<form class="form-horizontal js-ajax-form margin-top-20" action="{:url('ActivityScheme/add_scheme_post')}" method="post">
+
+			<div class="form-group">
+				<label for="input-name" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ACTIVITY_NAME')}</label>
+				<div class="col-md-6 col-sm-10">
+					<input class="form-control" id="list" list="activityList"/>
+					<datalist id="activityList">
+						<volist name="activityList" id="vo">
+							<option value="{$vo.title}" data-id="{$vo.id}">
+						</volist>
+					</datalist>
+				</div>
+			</div>
+
+			<div class="form-group	">
+				<label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ACTIVITY_SCHEME_NAME')}</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-name" name="name">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{:lang('ACTIVITY_SCHEME_TYPE')}</label>
+				<div class="col-md-6 col-sm-10">
+					<label class="radio-inline">
+						<input type="radio" name="type" value="0" checked="checked"> 日
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="type" value="1"> 时
+					</label>
+				</div>
+			</div>
+
+
+			<!--<div class="form-group">-->
+				<!--<label class="col-sm-2 control-label">{:lang('STATUS')}</label>-->
+				<!--<div class="col-md-6 col-sm-10">-->
+					<!--<label class="radio-inline">-->
+						<!--<input type="radio" name="status" value="1" checked="checked"> {:lang('ENABLED')}-->
+					<!--</label>-->
+					<!--<label class="radio-inline">-->
+						<!--<input type="radio" name="status" value="0"> {:lang('DISABLED')}-->
+					<!--</label>-->
+				<!--</div>-->
+			<!--</div>-->
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="hidden" name="activity_id" value="" id="activity">
+					<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+	<script>
+        $('#list').bind('input propertychange', function() {
+            $("#activity").val($("#activityList option[value='" + $('#list').val() + "']").attr('data-id'));
+        });
+
+	</script>
+</body>
+</html>

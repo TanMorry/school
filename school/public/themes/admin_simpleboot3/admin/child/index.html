@@ -1,0 +1,46 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('Child/index')}">关系列表</a></li>
+		</ul>
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th width="40">ID</th>
+						<th align="left">名称</th>
+						<th align="left">昵称</th>
+						<th width="60">性别</th>
+						<th width="160">出生日期</th>
+						<th width="120">关系</th>
+						<th width="150">手机号</th>
+						<th width="180" align="left">创建时间</th>
+						<th width="160">{:lang('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<foreach name="data" item="vo">
+					<tr>
+						<td>{$vo.id}</td>
+						<td>{$vo.name}</td>
+						<td>{$vo.nickname}</td>
+						<td>
+							<php>$sexname=($vo['sex']==1?'男':'女')</php>
+							{$sexname}
+						</td>
+						<td>{:date('Y-m-d',$vo.date)}</td>
+						<td>{$vo.relation_name}</td>
+						<td>{$vo.phone}</td>
+						<td>{:date('Y-m-d H:i:s',$vo['create_time'])}</td>
+						<td>
+							<a class="js-ajax-delete" href="{:url('Child/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+						</td>
+					</tr>
+					</foreach>
+				</tbody>
+			</table>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

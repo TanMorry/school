@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=750px, user-scalable=true"/>
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html;"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="keywords" content="keyword ..."/>
+    <meta name="Description" content="description ..."/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/animate.min.css"/>
+    <script type="text/javascript" src="js/ali.js"></script>
+    <script type="text/jscript" src="js/rem.js"></script>
+    <script type="text/javascript" src="js/jqrey.min.js"></script>
+    <script type="text/javascript" src="js/cookie.js"></script>
+
+
+    <title>待付款</title>
+</head>
+<body class="corder_back bod">
+
+
+<div class="xq_header">
+    <div>
+        <img src="images/blxqh5_13.png"/>
+        <p class="cool">待付款</p>
+    </div>
+    <div class="xq_bg"></div>
+    <div>
+        <img src="images/blxqh5_15.png"/>
+        <p>待服务</p>
+    </div>
+    <div class="xq_bg"></div>
+    <div>
+        <img src="images/blxqh5_17.png"/>
+        <p>待评价</p>
+    </div>
+</div>
+<div class="xq_conatiner_a">
+
+
+</div>
+<div class="xq_conatiner_b">
+
+</div>
+<div class="xq_conatiner_c">
+    <p>实付</p>
+    <p><label>¥</label><span class="jgl"></span></p>
+</div>
+<div class="xq_footer">去付款</div>
+</body>
+<script>
+    $(document).ready(function () {
+
+
+
+
+        /*支付数据处理*/
+        function pay() {
+            var date_id = $(".sh_phone").attr("data-good")
+            var pw = $(".sh_phone").attr("data-good")
+            var mobs = $(".sh_phone").text()
+            var url = "http://www.flyxiu.com/api/user/payway/submitOrder"
+            $.ajax({
+                url: url,
+                headers: {
+                    'XX-Device-Type': 'weixin',
+                    'XX-Token': 'd05c442e83cb4dec4b9bac49b6ea499078a36e8c9d22de1707469318e8dad3dd',
+                },
+                data: ({"date_id": date_id, "ticket_id": pw, "pay_way": 1, "num": 1, "phone": mobs, "type": 2}),
+                type: 'get',
+                jsonpCallback: "successCallback",
+                dataType: 'jsonp',
+                success: function (res) {
+                    if (res.status == 'ok') {
+                        callpay(res.data);
+                    } else {
+                        alert(res.msg);
+                    }
+                },
+                error: function () {
+                    alert('请求失败');
+                }
+            })
+
+        }
+
+        function jsApiCall(paydata) {
+            var a = paydata;
+//return false;
+            console.log(a.appId + '  ' + a.timeStamp + ' ' + a.nonceStr + ' ' + a.package + ' ' + a.signType + ' ' + a.paySign)
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                    "appId": a.appId,     //公众号名称，由商户传入     
+                    "timeStamp": a.timeStamp,         //时间戳，自1970年以来的秒数     
+                    "nonceStr": a.nonceStr, //随机串     
+                    "package": a.package,
+                    "signType": a.signType,         //微信签名方式：     
+                    "paySign": a.paySign//微信签名 
+
+                },
+                function (res) {
+                    //console.log('res = '+res);
+                    WeixinJSBridge.log(res.err_msg);
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+                        window.location.href = 'ticket.html';
+                    }
+                }
+            )
+        }
+
+        function callpay(paydata) {
+            //alert(paydata)
+            if (typeof WeixinJSBridge == "undefined") {
+                if (document.addEventListener) {
+                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                } else if (document.attachEvent) {
+                    document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                }
+            } else {
+                jsApiCall(paydata);
+            }
+        }
+
+        /*支付数据结束*/
+
+
+        var hr = window.location.search.substr(1)
+        console.log(hr)
+        $.ajax({
+            type: "get",
+            url: "http://www.flyxiu.com/api/user/order/order_detail",
+            data: ({"order_id": hr}),
+            headers: {
+//                'XX-Device-Type': $.cookie('device_type'),
+//                'XX-Token': $.cookie('token'),
+                'XX-Device-Type': 'weixin',
+                'XX-Token': 'd05c442e83cb4dec4b9bac49b6ea499078a36e8c9d22de1707469318e8dad3dd',
+            },
+            success: function (data) {
+                if (data.code == 1) {
+                    var data = data.data
+                    console.log(data)
+                    $.each(data, function (key, val) {
+                        if (data[key].price == null) {
+                            data[key].price = ""
+                        }
+                        $(".xq_conatiner_a").append(
+                            '<p><label>订单号： <span class="ddhao" data-id="' + data[key].good_id + '">' + data[key].order_id + '</span></label></p>' +
+                            '<p><label>订单创建时间：<span>' + data[key].order_time + '</span></label></p>' +
+                            '<img src="' + data[key].img_src.url + '" />' +
+                            '<div class="xq_title">' + data[key].title + '</div>' +
+                            '<div class="xq_title">' +
+                            '<label>演出时间：</label><span>' + data[key].show_time + '</span></div>' +
+                            '<div class="xq_title"><label>演出地点：</label><span>' + data[0].show_addr + '</span></div>'
+                        )
+                        $(".xq_conatiner_b").append(
+                            '<div><label>邮寄方式：</label> <label>' + data[key].order_status + '</label></div>' +
+                            '<div><label>收货人：</label> <span>' + data[key].consignee_name + '</span></div>' +
+                            '<div><label>电话号码：</label> <span data-good="' + data[key].good_id + '" class="sh_phone">' + data[key].consignee_phone + '</span></div>' +
+                            '<div><label>收货地址：</label> <span>' + data[key].consignee_addr + '</span></div>'
+                        )
+
+                        $(".jgl").text(data[key].price)
+                    })
+
+                    $(".xq_footer").on('click', function () {
+
+
+                        pay()
+                    })
+
+
+                }
+            }
+
+        })
+
+
+    })
+
+</script>
+</html>

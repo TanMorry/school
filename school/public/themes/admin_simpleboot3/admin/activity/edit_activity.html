@@ -1,0 +1,264 @@
+<include file="public@header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li><a href="{:url('Activity/index')}">{:lang('ADMIN_ACTIVITY_INDEX')}</a></li>
+		<li><a href="{:url('Activity/add_activity')}">{:lang('ADMIN_ACTIVITY_ADD')}</a></li>
+		<li class="active"><a>{:lang('ADMIN_ACTIVITY_EDIT')}</a></li>
+	</ul>
+	<form class="form-horizontal js-ajax-form margin-top-20" action="{:url('Activity/edit_activity_post')}" method="post">
+		<div class="form-group">
+			<label for="input-name" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ACTIVITY_NAME')}</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" id="input-name" name="title" value="{$info['data']['title']}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ACTIVITY_SRC')}</label>
+			<div class="col-md-6 col-sm-10">
+				<ul id="photos" class="pic-list list-unstyled form-inline">
+					<notempty name="photos">
+						<foreach name="photos" item="vo">
+							<php>$img_url=cmf_get_image_preview_url($vo['url']);</php>
+							<li id="saved-image{$key}">
+								<input id="photo-{$key}" type="hidden" name="photo_urls[]"
+									   value="{$vo.url}">
+								<input class="form-control" id="photo-{$key}-name" type="text"
+									   name="photo_names[]"
+									   value="{$vo.name|default=''}" style="width: 200px;" title="图片名称">
+								<img id="photo-{$key}-preview"
+									 src="{:cmf_get_image_preview_url($vo['url'])}"
+									 style="height:36px;width: 36px;"
+									 onclick="parent.imagePreviewDialog(this.src);">
+								<a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
+								<a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
+							</li>
+						</foreach>
+					</notempty>
+				</ul>
+				<a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
+				   class="btn btn-default btn-sm">选择图片</a>
+			</div>
+		</div>
+		<div class="form-group" id="activity_type">
+			<label class="col-sm-2 control-label">类型</label>
+			<div class="col-md-6 col-sm-10">
+				<label class="radio-inline">
+					<php>$type_true_checked=($info['data']['type']==1)?"checked":"";</php>
+					<input type="radio" name="type" value="1" {$type_true_checked}>活动
+				</label>
+				<label class="radio-inline">
+					<php>$type_false_checked=($info['data']['type']==2)?"checked":"";</php>
+					<input type="radio" name="type" value="2" {$type_false_checked}>票务
+				</label>
+			</div>
+		</div>
+		<if condition="$info['data']['type']==2">
+			<div class="form-group" id="form_start_time">
+				<label class="col-sm-2 control-label"><span class="form-required">*</span>演出时间</label>
+				<div class="col-md-6 col-sm-10">
+					<volist name="showList" id="vo">
+						<p><input type="text" class="js-bootstrap-datetime" name="show_time[]" value="{$vo.date} {$vo.time}" autocomplete="off" style="height: 30px;"> <button type="button" class="btn-white" style="height: 30px;" onclick="add_start(this)">+</button> <button type="button" class="btn-white" style="height: 30px;" onclick="del_start(this)">-</button>&nbsp;&nbsp;&nbsp;&nbsp;库存 <input type="number" name="ticket_stock[]" value="{$vo.stock}">&nbsp;&nbsp;&nbsp;&nbsp;票价 <input type="number" name="ticket_price[]" value="{$vo.price}">
+						</p>
+					</volist>
+				</div>
+			</div>
+		</if>
+
+		<div class="form-group">
+			<label for="input-price" class="col-sm-2 control-label"><span class="form-required">*</span>适合年龄</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="number" name="start_age" value="{$age[0]}">-<input type="number"  name="end_age" value="{$age[1]}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="input-price" class="col-sm-2 control-label"><span class="form-required">*</span>价格</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="number" class="form-control" id="input-price" name="price" value="{$info['data']['price']}">
+			</div>
+		</div>
+
+		<div class="form-group" id="formerprice">
+			<label for="input-formerprice" class="col-sm-2 control-label"><span class="form-required">*</span>促销价格</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="number" class="form-control" id="input-formerprice" name="formerprice" value="{$info['data']['formerprice']}">
+			</div>
+		</div>
+		<if condition="$info['data']['type']==1">
+			<div class="form-group" id="stock">
+				<label for="input-stock" class="col-sm-2 control-label"><span class="form-required">*</span>库存</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="number" class="form-control" id="input-stock" name="stock" value="{$info['data']['stock']}">
+				</div>
+			</div>
+		</if>
+		<if condition="$info['data']['type']==2">
+			<div class="form-group" id="show_addr">
+				<label for="input-stock" class="col-sm-2 control-label">演出地址</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-show_addr" name="show_addr" value="{$info['data']['show_addr']}">
+				</div>
+			</div>
+		</if>
+		<!--<div class="form-group">-->
+			<!--<label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ACTIVITY_DESCRIPTION')}</label>-->
+			<!--<div class="col-md-6 col-sm-10">-->
+				<!--<php>$com = cmf_replace_content_file_url(htmlspecialchars_decode($info['data']['detail']))</php>-->
+				<!--<script type="text/plain" id="content" name="detail">{$com}</script>-->
+			<!--</div>-->
+		<!--</div>-->
+		<!--<div class="form-group">-->
+			<!--<label class="col-sm-2 control-label">推荐理由</label>-->
+			<!--<div class="col-md-6 col-sm-10">-->
+				<!--<php>$reason = cmf_replace_content_file_url(htmlspecialchars_decode($info['data']['reason']))</php>-->
+				<!--<script type="text/plain" id="reason" name="reason">{$reason}</script>-->
+			<!--</div>-->
+		<!--</div>-->
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ACTIVITY_DESCRIPTION')}</label>
+			<div class="col-md-6 col-sm-10">
+				<textarea class="form-control" type="text" id="content" name="detail">{$com}</textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">推荐理由</label>
+			<div class="col-md-6 col-sm-10">
+				<textarea class="form-control" type="text" id="reason" name="reason">{$reason}</textarea>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">是否推荐</label>
+			<div class="col-md-6 col-sm-10">
+				<label class="radio-inline">
+					<php>$active_true_checked=($info['data']['recommended']==1)?"checked":"";</php>
+					<input type="radio" name="recommended" value="1" {$active_true_checked}> 推荐
+				</label>
+				<label class="radio-inline">
+					<php>$active_false_checked=($info['data']['recommended']==0)?"checked":"";</php>
+					<input type="radio" name="recommended" value="0" {$active_false_checked}> 不推荐
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<input type="hidden" name="id" value="{$info['data']['id']}">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('EDIT')}</button>
+				<a class="btn btn-default" href="{:url('Activity/index')}">返回</a>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+//        editorcontent = new baidu.editor.ui.Editor();
+//        editorcontent.render('content');
+//        editorcontent2 = new baidu.editor.ui.Editor();
+//        editorcontent2.render('reason');
+        try {
+            editorcontent.sync();
+        } catch (err) {
+        }
+        try {
+            editorcontent2.sync();
+        } catch (err) {
+        }
+
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+
+    });
+</script>
+<script type="text/html" id="photos-item-tpl">
+	<li id="saved-image{id}">
+		<input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
+		<input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
+			   style="width: 200px;" title="图片名称">
+		<img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+			 onclick="imagePreviewDialog(this.src);">
+		<a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+		<a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+	</li>
+</script>
+</body>
+
+<script>
+    $(":radio").click(function(){
+        var str = 0;
+        if($(this).val() == 2){
+            $("#form_start_time").remove();
+            $("#show_addr").remove();
+
+            //票务
+//            $("#form_start_time").show();
+            str = '<div class="form-group" id="form_start_time"><label class="col-sm-2 control-label"><span class="form-required">*</span>演出时间</label>'
+                +'<div class="col-md-6 col-sm-10">'
+                +'<p><input type="text" class="js-bootstrap-datetime" name="show_time[]" value="" autocomplete="off" style="height: 30px;"> <button type="button" class="btn-white" style="height: 30px;" onclick="add_start(this)">+</button> <button type="button" class="btn-white" style="height: 30px;" onclick="del_start(this)">-</button>'+'&nbsp;&nbsp;&nbsp;&nbsp;库存 <input type="number" name="ticket_stock[]">'+'&nbsp;&nbsp;&nbsp;&nbsp;票价 <input type="number" name="ticket_price[]">'
+                +'</p>'
+                +'</div></div>'
+			str2 = '<div class="form-group" id="show_addr">\
+						<label for="input-show_addr" class="col-sm-2 control-label">演出地址</label>\
+						<div class="col-md-6 col-sm-10">\
+						<input type="text" class="form-control" id="input-show_addr" name="show_addr" value="">\
+						</div>\
+					</div>'
+			console.log(str);
+            $("#activity_type").after(str);
+            $("#formerprice").after(str2);
+            $("#stock").hide()
+            date()
+        }else{
+            $("#stock").remove();
+            $("#show_addr").remove();
+            str='<div class="form-group" id="stock">\
+                <label for="input-stock" class="col-sm-2 control-label"><span class="form-required">*</span>库存</label>\
+                <div class="col-md-6 col-sm-10">\
+                <input type="number" class="form-control" id="input-stock" name="stock" value="">\
+                </div>\
+                </div>'
+            $("#form_start_time").hide();
+            $("#formerprice").after(str);
+
+        }
+    });
+    function add_start(obj){
+        var str = '<p><input type="text" class="js-bootstrap-datetime" name="show_time[]" value="" autocomplete="off" style="height: 30px;"> <button type="button" class="btn-white" style="height: 30px;" onclick="add_start(this)">+</button> <button type="button" class="btn-white" style="height: 30px;" onclick="del_start(this)">-</button>&nbsp;&nbsp;&nbsp;&nbsp;库存 <input type="number" name="ticket_stock[]">'+'&nbsp;&nbsp;&nbsp;&nbsp;票价 <input type="number" name="ticket_price[]"></p>';
+        $(obj).parent().parent().append(str);
+        date()
+    }
+
+    function del_start(obj){
+        $(obj).parent('p').remove();
+    }
+
+    //重新调用一次日期选择器插件
+    function date(){
+        // bootstrap日期选择器日期+时间选择器
+        var bootstrapDateTimeInput = $("input.js-bootstrap-datetime");
+        if (bootstrapDateTimeInput.length) {
+            Wind.css('bootstrapDatetimePicker');
+            Wind.use('bootstrapDatetimePicker', function () {
+                bootstrapDateTimeInput.datetimepicker({
+                    language: 'zh-CN',
+                    format: 'yyyy-mm-dd hh:ii',
+                    todayBtn: 1,
+                    autoclose: true
+                });
+            });
+        }
+    }
+
+</script>
+</html>

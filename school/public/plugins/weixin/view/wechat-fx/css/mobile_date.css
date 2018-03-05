@@ -1,0 +1,72 @@
+/* DaTouWang URL: www.datouwang.com */
+.box{width: 100%;height: 100%;margin-bottom: -43%;}
+.head{w
+    width: 100%;
+    height: 1rem;
+    cursor: pointer;
+    margin-bottom: -17%;
+    
+    }
+.head .next{
+	    /* width: 5%; */
+    text-align: center;
+    float: left;
+    font-size:0.3rem;
+    margin-left: 1%;
+}
+.head .prev{
+	    /* width: 5%; */
+    text-align: center;
+    float: left;
+    font-size: 0.3rem;
+    margin-left: 38%;
+
+}
+.head .tomon{
+	    width: 24%;
+    float: left;
+    text-align: center;
+    font-size: 0.3rem;
+    margin-left: 1%;
+}
+.date ol{
+	width: 100%;
+    background: #f8f8f8;
+    padding: 0;
+    height: 1rem;
+    line-height: 1rem;
+    margin-bottom: -14%;
+}
+.date ol li{display:block;float: left;width: 14.2857%;text-align: center;font-size: 0.3rem;color: #333;border: none;padding: 0;}
+.date ul{
+	    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: -1%;
+}
+.date ul li{display: block;font-size: 0.3rem;background: #fff;position: relative;color: #ccc;}
+.date ul li i{font-size: 10px;position: absolute;right: 0;bottom:0.3rem;display:block;height: 15px;line-height: 15px;width: 100%;text-align: center;color: #e35925;}
+.date ul li span{
+	    display: block;
+    width: 1.1rem;
+    height: 1rem;
+    text-align: center;
+    line-height: 1rem;
+}
+.date ul .no_date{color: #ccc;}
+.date ul .act_wk{color: #e35925;}
+.date ul .act_date{
+	       background: #f8ba0a;
+    color: #333!important;
+    border-radius: 100%;
+    /* height: 116%; */
+}
+.date ul .mo_date{
+	color: #333;
+}
+.date ul .act_ds{background: #005bac;color: #fff;}
+.date ul li:nth-child(31){
+	margin-left: 1%;
+}
+

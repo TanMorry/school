@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="">
+    <include file="public@head"/>
+</head>
+<body>
+<input type="text" name="username" placeholder="手机号" class="form-control"
+       id="js-mobile-input">
+</body>
+<script>
+    var url = "http://localhost/baolixiaoqu/public/user/register/doregister.html";
+    $.ajax({
+        url:url,
+        data:{'id':'11'},
+        type:'post',
+        success:function(res){
+            alert(1)
+        }
+    })
+</script>
+</html>

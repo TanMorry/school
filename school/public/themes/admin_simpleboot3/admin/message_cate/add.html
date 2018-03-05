@@ -1,0 +1,25 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:url('MessageCate/index')}">资讯分类列表</a></li>
+			<li class="active"><a href="{:url('MessageCate/add')}">添加资讯</a></li>
+		</ul>
+		<form class="form-horizontal js-ajax-form margin-top-20" action="{:url('MessageCate/addPost')}" method="post">
+			<div class="form-group">
+				<label for="input-catename" class="col-sm-2 control-label"><span class="form-required">*</span>分类名称</label>
+				<div class="col-md-6 col-sm-10">
+					<input type="text" class="form-control" id="input-catename" name="catename">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8" />
+	    <meta name="viewport" content="width=750px, user-scalable=true" />
+	<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+  <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+  <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+	<meta http-equiv="Content-Type" content="text/html;" />
+	<meta http-equiv="Content-Language" content="zh-cn" />
+    <meta name="keywords" content="keyword ..." />
+    <meta name="Description" content="description ..." />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animate.min.css" />
+    <script  type="text/ecmascript" src="js/jqrey.min.js"></script>
+    <script type="text/ecmascript" src="js/ali.js"></script>
+     <script type="text/ecmascript" src="js/rem.js"></script>
+		<script type="text/javascript" src="js/cookie.js"></script>
+
+		<title>评价</title>
+	</head>
+	<body class="corder_back">
+		<form method="post" action enctype="multipart/form-data">
+			<div class="fade_fk bounceInUp animated">
+			<p class="ts_fk"></p>
+		</div>
+		<div class="fade_pl bounceInUp animated">
+			<p class="ts_pl"></p>
+		</div>
+		<span class="fz"></span>
+		<span class="boxn"></span>
+		<span class="n_bn">2</span>
+		<!--/*存值*/-->
+		<div class="header_eva">
+		<div class="img_tx">
+			<img class="header_Img" src="images/0.jpg"/>
+		</div>
+		<div class="img_text">
+	              <p class="titl">等待加载中......</p>
+	              <div class="header_pl">
+	              	<div>描诉相符</div>
+	              	<div>
+	              		<img class="x_a" src="images/blxqh4.png" />
+	              		<img class="x_as" src="images/blxqh5.png" />
+	              		<img class="x_b" src="images/blxqh4.png" />
+	              		<img class="x_bs" src="images/blxqh5.png" />
+	              		<img class="x_c" src="images/blxqh4.png" />
+	              		<img class="x_cs" src="images/blxqh5.png" />
+	              	    <img class="x_d" src="images/blxqh4.png" />
+	              	    <img class="x_ds" src="images/blxqh5.png" />
+	              	    <img class="x_e"src="images/blxqh4.png" />
+	              	    <img class="x_es" src="images/blxqh5.png" />
+	              		
+	              	</div>
+	              </div>
+		</div>
+		</div>
+		<div class="header_box">
+		<textarea  name="content" rows="6" cols="80" onpropertychange="if(this.scrollHeight>80) this.style.posHeight=this.scrollHeight+5">这次演出满足您的期待吗？说说它的优点和美中不足的地方吧</textarea>
+		<div class="upload">
+			<div>
+				 <div>
+                <label>
+                    <img class="Xj_as" src="images/xj_phone.png">
+                   
+                               <input class="Xj_a" name="file" accept="image/*" type="file"/>     
+                        </label>
+            </div>
+			</div>
+			<div>
+				 <div>
+                <label>
+                    <img class="Xj_bs" src="images/xj_phone.png">
+                   
+                               <input class="Xj_b" name="file" accept="image/*" type="file"/>     
+                        </label>
+            </div>
+			</div>
+			<div>
+				 <div>
+                <label>
+                    <img class="Xj_cs" src="images/xj_phone.png">
+                   
+                               <input class="Xj_c" name="file" accept="image/*" type="file"/>     
+                        </label>
+            </div>
+			</div>
+			
+		</div>
+	
+		<div class="nmin">
+			<div>
+				<div class="nmin_box mbk">✔</div><span>匿名</span>
+			</div>
+			<div>
+				<span>您写的 评论会以匿名的形式展现</spam>
+			</div>
+		</div>
+		
+		</div>
+		
+		<div>
+			<div class="pl_footer">发布</div>
+		<script>
+				 $(document).ready(function(){
+				 	 var url = window.location.search.substr(1)  
+				 	 $.ajax({
+                    type: "get",
+                    url: "http://www.flyxiu.com/api/home/ticket/com_page",
+                    data:({"id":url}),
+                      headers:{
+                          'XX-Device-Type': $.cookie('device_type'),
+                          'XX-Token': $.cookie('token'),
+                  },
+                    success: function(data) {
+                    	console.log(data)
+                    	var tema =data.data
+                    	if(data.code==1){
+                    		$(".titl").text(tema.title)
+                    		$(".header_Img").attr("src",tema.img_src)
+                    	}
+                    }
+                    
+                  })
+				 	
+				 	
+				 	
+				 	
+				 	
+				 	
+				 	
+				 	
+				 	
+				 	
+				 	
+				 	
+				 	
+				 	
+				 	/*获取头像名称*/
+				 	
+				 	
+				 	
+				 	
+				 	
+				 	var number = 0
+				 	var nmz = 1
+				 	var img_xj = 0
+				 	$(".x_a").on('click',function(){
+				 		$(this).hide()
+				 		$(".x_as").show()
+				 		$(".fade_pl").hide()
+                        $(".ts_pl").text("")
+				 		number=1
+				 		$(".fz").text(number)
+				 	})
+				 	$(".x_b").on('click',function(){
+				 		$(this).hide()
+				 		$(".x_bs").show()
+				 		$(".x_a").hide()
+				 		$(".x_as").show()
+				 		$(".fade_pl").hide()
+                        $(".ts_pl").text("")
+				 		number=2
+				 		$(".fz").text(number)
+				 	})
+				 	$(".x_c").on('click',function(){
+				 		$(this).hide()
+				 		$(".x_cs").show()
+				 		$(".x_a").hide()
+				 		$(".x_as").show()
+				 		$(".x_b").hide()
+				 		$(".x_bs").show()
+				 		$(".fade_pl").hide()
+                        $(".ts_pl").text("")
+				 		number=3
+				 		$(".fz").text(number)
+				 	})
+				 	$(".x_d").on('click',function(){
+				 		$(this).hide()
+				 		$(".x_ds").show()
+				 		$(".x_a").hide()
+				 		$(".x_as").show()
+				 		$(".x_b").hide()
+				 		$(".x_bs").show()
+				 		$(".x_c").hide()
+				 		$(".x_cs").show()
+				 		$(".fade_pl").hide()
+                        $(".ts_pl").text("")
+				 		number=4
+				 		$(".fz").text(number)
+				 	})
+				 	$(".x_e").on('click',function(){
+				 		$(this).hide()
+				 		$(".x_es").show()
+				 		$(".x_a").hide()
+				 		$(".x_as").show()
+				 		$(".x_b").hide()
+				 		$(".x_bs").show()
+				 		$(".x_c").hide()
+				 		$(".x_cs").show()
+				 		$(".x_d").hide()
+				 		$(".x_ds").show()
+				 		$(".fade_pl").hide()
+                        $(".ts_pl").text("")
+				 		number=5
+				 		$(".fz").text(number)
+				 	})
+				 		
+				 	/*评论存值*/
+				 	/*************/
+				 		/*************/
+				 			/*************/
+				 				/*************/
+				 					/*************/
+				 	
+				 	
+				 	$("textarea[name=content]").on('focus',function(){
+				 						 	$(this).css("color","#333333")
+				 var centr = $(this).val()
+				 if(centr=="这次演出满足您的期待吗？说说它的优点和美中不足的地方吧"){
+				 	$(this).val("")
+				 }else{
+				 	$(this).val()
+				 	$(".boxn").text(centr)
+
+				 }
+				 	
+				 	})
+				 		$("textarea[name=content]").on('blur',function(){
+			
+				 var centr = $(this).val()
+				 if(centr=="这次演出满足您的期待吗？说说它的优点和美中不足的地方吧"){
+				 	$(this).val("这次演出满足您的期待吗？说说它的优点和美中不足的地方吧")
+				 		 						 	$(this).css("color","#b3b3b3")
+				 }else{
+				 	$(this).val()
+				 		$(this).css("color","#333")
+				 			$(".boxn").text(centr)
+
+				 }
+				 	
+				 	})
+				 	
+				 	$("textarea[name=content]").on('keyup',function(){
+				 		$(".fade_pl").hide()
+                        $(".ts_pl").text("")
+				 		$(this).css("color","#333333")
+				 var centr = $(this).val()
+				 if(centr==""){
+				 		$(this).css("color","#b3b3b3")
+				 	$(this).val("这次演出满足您的期待吗？说说它的优点和美中不足的地方吧")
+				 }
+				 if(centr=="这次演出满足您的期待吗？说说它的优点和美中不足的地方吧"){
+				 	$(this).val("")
+				 }		 
+				 
+				 })
+				 	$("textarea[name=content]").on('keydown',function(){
+				 var centr = $(this).val()
+				 if(centr=="这次演出满足您的期待吗？说说它的优点和美中不足的地方吧"){
+				 	$(this).val("")
+				 }else{
+				 	$(".boxn").text(centr)
+				 }
+				 
+				 	
+				 	})
+				 	
+				 	/*文本域存值处理*/
+				 	/*************/
+				 		/*************/
+				 			/*************/
+				 				/*************/
+				 					/*************/
+				 	
+				 	$(".Xj_a").click(function() {
+            $(".Xj_a").on("change", function() {
+                var objUrl = getObjectURL(this.files[0]);
+                if (objUrl) {
+                  $(".Xj_as").attr("src", objUrl);
+                }
+            });
+        });
+        	$(".Xj_b").click(function() {
+            $(".Xj_b").on("change", function() {
+            	
+                var objUrl = getObjectURL(this.files[0]); 
+                
+                if (objUrl) {
+                    $(".Xj_bs").attr("src", objUrl); 
+                }
+            });
+        });
+        $(".Xj_c").click(function() {
+            $(".Xj_c").on("change", function() {
+                var objUrl = getObjectURL(this.files[0]);
+                if (objUrl) {
+                    $(".Xj_cs").attr("src", objUrl);
+                }
+            });
+        });
+
+
+    function getObjectURL(file) {
+        var url = null;
+        if (window.createObjectURL != undefined) { // basic
+            url = window.createObjectURL(file);
+        } else if (window.URL != undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL != undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file);
+        }
+        return url;
+    }
+
+				 	/*上传评论图片*/
+				 		/*************/
+				 		/*************/
+				 			/*************/
+				 				/*************/
+				 					/*************/
+				 					
+				 			$(".nmin_box").on('click',function(){
+				 				$(this).toggleClass("mbk")
+				 				if($(this).hasClass("mbk")){
+				 					$(this).text("✔")
+				 					nmz=2
+				 					$(".n_bn").text(nmz)
+				 				}else{
+				 					$(this).text("")
+				 					nmz=1
+				 					$(".n_bn").text(nmz)
+				 				}
+				 			})
+				 			
+				 		/*匿名选择*/
+				 		/*************/
+				 		/*************/
+				 			/*************/
+				 				/*************/
+				 					/*************/
+				 					
+				 					$(".pl_footer").on('click',function(){
+				 						var a =$(".fz").text()
+				 						var b = $("textarea[name=content]").val()
+				 						var c = $(".n_bn").text()
+				 						if(a==0){
+				 							$(".fade_pl").show()
+				 							$(".ts_pl").text("请评论星级后再提交")
+				 							return false
+				 						}
+				 						if(b=="这次演出满足您的期待吗？说说它的优点和美中不足的地方吧"){
+				 							$(".fade_pl").show()
+				 							$(".ts_pl").text("请评论内容后再提交")
+				 							return false
+				 						}
+				 						 $.ajax({
+                    type: "post",
+                    url: "http://www.flyxiu.com/api/user/mine/add_com",
+                    data:({"star":a,"com":b,"product_id":54,"type":c}),
+                     headers:{
+                         'XX-Device-Type': $.cookie('device_type'),
+                         'XX-Token': $.cookie('token'),
+                  },
+                    success: function(data) {
+                    	console.log(data)
+                    	if(data.code==1){
+                    		  $(".fade_fk").show()
+				 							$(".ts_fk").text("评论提交成功")
+				 						
+				 						setTimeout(function(){
+				 							
+                  		 window.location.href="Unpaid.html?72"
+                		  },1000);
+                    	}
+                    			  
+                    }
+                    
+                  })
+				 				
+                    		  
+				 					})
+				 	
+				 })
+		</script>
+		</form>
+	</body>
+</html>

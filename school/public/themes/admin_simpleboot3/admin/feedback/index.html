@@ -1,0 +1,46 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('Feedback/index')}">反馈列表</a></li>
+		</ul>
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th width="40">ID</th>
+						<th align="left">反馈内容</th>
+						<th align="left">手机号</th>
+						<th align="left">图片</th>
+						<th width="180" align="left">创建时间</th>
+						<th width="160">{:lang('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<foreach name="list" item="vo">
+					<tr>
+						<td>{$vo.id}</td>
+						<td><php>$com = cmf_replace_content_file_url(htmlspecialchars_decode($vo['content']))</php>{$com}</td>
+						<td>{$vo.phone}</td>
+						<td>
+							<php>
+								$url = json_decode($vo['img_src'],true);
+							</php>
+							<foreach name="url['photos']" item="u">
+								<php>$img_url=cmf_get_image_preview_url($u['url']);</php>
+								<img src="{$img_url}" width="50px" height="50px";/>
+							</foreach>
+						</td>
+						<td>{:date('Y-m-d H:i:s',$vo['create_time'])}</td>
+						<td>
+							<a href="{:url('Feedback/detail',array('id'=>$vo['id']))}">详情</a>
+							<a class="js-ajax-delete" href="{:url('Feedback/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+						</td>
+					</tr>
+					</foreach>
+				</tbody>
+			</table>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

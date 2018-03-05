@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+<head>
+    <include file="public/head"/>
+    <title>微信公共平台后台</title>
+    <meta name="description" content="微信公共平台后台">
+    <meta name="keywords" content="微信公共平台后台">
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>微信公共平台----自定义菜单</a></li>
+    </ul>
+    <div class="common-form">
+        <div class="well">
+            <include file="public/nav"/>           
+        </div>
+        <hr>
+        <h4>自定义菜单</h4>
+        <hr>
+        <div class="panel-group" id="accordion">
+            <volist name="menu.menu.button" id="vo">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title" data-toggle="collapse" data-parent="#accordion" 
+                        href="#collapse{$key}">  
+                        {$vo.name}
+                    </h4>
+                </div>
+
+                <div id="collapse{$key}" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <empty name="vo.sub_button">
+
+                        <else />
+                            <ul class="list-group">
+                            <volist name="vo.sub_button" id="sub_vo">                            
+                                <li class="list-group-item">
+                                    <h5 class="active">{$sub_vo.name}</h5>
+                                </li>
+                            </volist>
+                            </ul>
+                        </empty>
+                    </div>
+                </div>
+            </div>
+            </volist>
+        </div>
+
+        <hr>
+        <h4>设置自定义菜单</h4>
+        <div class="btn btn-default new_button" id="" style="margin-right:2px;margin-bottom:4px;">新建菜单</div>
+        <hr>
+       
+        <form class="form" role="form" method="POST" action="{:cmf_plugin_url('Weixin://AdminIndex/saveMenu')}">
+            <ul class="list-group buttonul" style="">
+            <volist name="menu.menu.button" id="vo" key="k">
+                <li class="list-group-item button" style="margin-top:2px;background:#CCCCCC;">
+                <div class="form-group">
+                    <label class="" for="name[{$k}]">一级菜单名</label>
+                    
+                    <div class="btn btn-default pull-right delete" style="margin-bottom:4px;">删除</div>
+                    <div class="btn btn-default pull-right new_sub" id="{$k}" style="margin-right:2px;margin-bottom:4px;">新建子菜单</div>
+                    <input type="text" class="form-control" name="name[{$k}]" id="name[{$k}]" value="{$vo.name}" placeholder="请输入名称">
+                </div>
+                <empty name="vo.sub_button">
+                    <div class="form-group">
+                        <label for="name">事件类型</label>
+                        <select class="form-control" name="type[{$k}]">
+                            <option value="click">点击事件</option>
+                            <option value="view">跳转URL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="" for="name[{$k}]">值</label>
+                        <input type="text" class="form-control"  id="name[{$k}]" value="<php>
+                                    switch($vo['type']){
+                                        case 'click':
+                                            echo $vo['key'];
+                                        break;
+                                        case 'view':
+                                            echo $vo['url'];
+                                        break;
+                                    }
+                                    </php>" name="value[{$k}]" placeholder="请输入值">
+                    </div>
+                <else />
+                    
+                    <ul class="list-group sub_button{$k}">
+                        <volist name="vo.sub_button" id="sub_vo" key="key">                            
+                            <li class="list-group-item" style="margin:3px" >
+                                <div class="form-group">
+                                    <label class="" for="sub_name[{$k}][{$key}]">二级菜单名</label>
+                                    <div class="btn btn-default pull-right delete" style="margin-bottom:4px;">删除</div>
+                                    <input type="text" class="form-control"  id="sub_name[{$k}][{$key}]" value="{$sub_vo.name}" name="sub_name[{$k}][{$key}]" placeholder="请输入名称">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">事件类型</label>
+                                    <select class="form-control" name="sub_type[{$k}][{$key}]}">
+                                        <option value="click" {$sub_vo.type == 'click'?'selected':''}>点击事件</option>
+                                        <option value="view" {$sub_vo.type == 'view'?'selected':''}>跳转URL</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="" for="sub_name[{$k}][{$key}]">值</label>
+                                    <input type="text" class="form-control"  id="sub_name[{$k}][{$key}]" value="<php>
+                                    switch($sub_vo['type']){
+                                        case 'click':
+                                            echo $sub_vo['key'];
+                                        break;
+                                        case 'view':
+                                            echo $sub_vo['url'];
+                                        break;
+                                    }
+                                    </php>" name="sub_value[{$k}][{$key}]" placeholder="请输入值">
+                                </div>
+                            </li>
+                        </volist>
+                    </ul>
+                </empty>
+                </li>
+            </volist>
+            </ul>
+            <button type="submit" class="btn btn-default">保存更改</button>
+        </form>
+    </div>
+</div>
+<include file="public/scripts"/>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $('.delete').click(function(){
+        if(confirm('您确定删除?')){
+            $(this).parent('div').parent('li').remove();
+        }
+    });
+
+    $('.new_sub').live('click',function(){
+    	var obj = $(this);
+        if(confirm('您确定新建子菜单?')){
+            var num = obj.parent('div').parent('li').find('.list-group-item').length;
+            if(num >= 5){
+                alert('已经有五个子菜单了');
+                return;
+            }
+            
+            var id = obj.attr('id');
+            var key = num+1;
+            console.log(key);
+            var str = '<li class="list-group-item sub_button" style="margin:3px"><div class="form-group"><label class="" for="sub_name['+id+']['+key+']">二级菜单名</label><div class="btn btn-default pull-right delete" style="margin-bottom:4px">删除</div><input type="text" class="form-control" id="sub_name['+id+']['+key+']" value="" name="sub_name['+id+']['+key+']" placeholder="请输入名称"></div><div class="form-group"><label for="name">事件类型</label><select class="form-control" name="sub_type['+id+']['+key+']}"><option value="click">点击事件</option><option value="view">跳转URL</option></select></div><div class="form-group"><label class="" for="sub_name['+id+']['+key+']">值</label><input type="text" class="form-control" id="sub_name['+id+']['+key+']" value="" name="sub_value['+id+']['+key+']" placeholder="请输入值"></div></li>';
+            if(key == 1){
+                obj.parent('div').next().remove();//第一个
+                obj.parent('div').next().remove();//第二个
+
+                obj.parent('div').after('<ul class="list-group sub_button'+id+'">'+str+'</ul>');
+            }else{
+            	$('.sub_button'+id).append(str);
+            }
+        }
+        $(".delete").unbind();
+        $('.delete').on('click',function(){
+            if(confirm('您确定删除?')){
+                $(this).parent('div').parent('li').remove();
+            }
+        });
+
+    });
+
+    $('.new_button').click(function(){
+        var obj = $('.buttonul>li');
+        var num = obj.length;
+        var k = num + 1;
+        if(num >= 3){
+            alert('已经有三个菜单了');
+            return;
+        }
+
+        if(confirm('您确定新建菜单?')){
+            $('.buttonul').append('<li class="list-group-item button" style="margin-top:2px;background:#CCC"><div class="form-group"><label class="" for="name['+k+']">一级菜单名</label><div class="btn btn-default pull-right delete" style="margin-bottom:4px">删除</div><div class="btn btn-default pull-right new_sub" id="'+k+'" style="margin-right:2px;margin-bottom:4px">新建子菜单</div><input type="text" class="form-control" name="name['+k+']" id="name['+k+']" value="" placeholder="请输入名称"></div><div class="form-group"><label for="name">事件类型</label><select class="form-control" name="type['+k+']"><option value="click">点击事件</option><option value="view">跳转URL</option></select></div><div class="form-group"><label class="" for="name['+k+']">值</label><input type="text" class="form-control" id="name['+k+']" value="" name="value['+k+']" placeholder="请输入值"></div></li>');
+        }
+
+        $(".delete").unbind();
+        $('.delete').on('click',function(){
+            if(confirm('您确定删除?')){
+                $(this).parent('div').parent('li').remove();
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
+

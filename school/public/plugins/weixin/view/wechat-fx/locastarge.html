@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+		<meta charset="utf-8" />
+  <title>jQuery学习2</title> 
+  <script src="js/jqrey.min.js" type="text/javascript"></script> 
+</head> 
+<body> 
+  <form>
+  	<input type="text" name="user"  />
+  		<input type="text" name="age"  />
+  		<input type="text" name="ct"  />
+  		<input type="number" name="phone"  />
+  		<input type="button" class="btn" value="提交" />
+  </form>
+  <script>
+  	$(document).ready(function () {
+  	
+  		var ary  =[]
+  		$(".btn").on('click',function(){
+  			var a = $("input[name=user]").val()
+  			var b = $("input[name=age]").val()
+  			var c = $("input[name=ct]").val()
+  			var d = $("input[name=phone]").val()
+  			if(a==null||a==undefined||a==""){
+  				
+  				return false
+  				
+  				
+  			}
+  			if(b==null||b==undefined||b==""){
+  				return false
+  				
+  			}
+  			if(c==null||c==undefined||c==""){
+  				return false
+  				
+  			}
+  			if(d==null||d==undefined||d==""){
+  				return false
+  				
+  			}
+  			ary.push(a,b,c,d)
+  			
+  			
+  			ary = JSON.stringify(ary); //将JSON转为字符串存到变量里
+  			alert(ary)
+            localStorage.setItem("ary",ary);//将变量存到localStorage里
+            
+//         var newary = localStorage.getItem("ary");
+//       newary = JSON.parse(ary); //转为JSON
+//      console.log(newary)
+  			
+  			
+  			
+  		})
+  		
+  		
+  	})
+  </script>
+</body> 
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=750px, user-scalable=true"/>
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html;"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="keywords" content="keyword ..."/>
+    <meta name="Description" content="description ..."/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/animate.min.css"/>
+    <script type="text/javascript" src="js/ali.js"></script>
+    <script type="text/jscript" src="js/rem.js"></script>
+
+    <script src="js/jqrey.min.js"></script>
+    <script type="text/javascript" src="js/cookie.js"></script>
+
+    <title>地址管理</title>
+</head>
+<body class="corder_back bod">
+<span class="thcz"></span>
+<div class="fade_gxs bounceInUp animated">
+    <p class="ts_gx"></p>
+</div>
+<div class="container_dzgl">
+</div>
+<div class="dzgl_footer"><img src="images/blxqh5_07.png"/>新增地址</div>
+</body>
+<script>
+    $(document).ready(function () {
+
+
+
+
+        /*判断功能添加和删除*/
+
+        /*列表数据获取开始*/
+
+        $.ajax({
+            type: "get",
+            url: "http://www.flyxiu.com/api/user/address/index",
+            headers: {
+                'XX-Device-Type': $.cookie('device_type'),
+                'XX-Token': $.cookie('token'),
+            },
+            success: function (data) {
+                if (data.code == 1) {
+
+                    var data = data.data
+                    console.log(data)
+                    var content = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].is_default == 1) {
+                            content += '<a  href="dizs.html?' + data[i].id + '" data-id="' + data[i].id + '"  class="hrf">';
+                            content += '<div class="mrxz zl">';
+                            content += '<div class="mr_home">' + data[i].tig + '</div>';
+                            content += '<div class="dz_title"><p><span>' + data[i].province + '</span><span>' + data[i].city + '</span><span>' + data[i].area + '</span></p></div>';
+                            content += '<label><span>' + data[i].realname + '</span><span>' + data[i].sex + '</span></label>';
+                            content += '<label>' + data[i].phone + '</label>'
+                            content += '<img src="images/blxqh5_21.png"/>';
+                            content += '</div>';
+                            content += '</a>';
+                            content += '<div class="scu"><span data-id="' + data[i].id + '" class="chal">删除</span></div>';
+                        }
+                        if (data[i].is_default == 0) {
+                            content += '<a  href="dizs.html?' + data[i].id + '" data-id="' + data[i].id + '"  class="hrf">';
+                            content += '<div class="mrxz">';
+                            content += '<div class="mr_home">' + data[i].tig + '</div>';
+                            content += '<div class="dz_title"><p><span>' + data[i].province + '</span><span>' + data[i].city + '</span><span>' + data[i].area + '</span></p></div>';
+                            content += '<label><span>' + data[i].realname + '</span><span>' + data[i].sex + '</span></label>';
+                            content += '<label>' + data[i].phone + '</label>'
+                            content += '<img src="images/blxqh5_21.png"/>';
+                            content += '</div>';
+                            content += '</a>';
+                            content += '<div class="scu"><span data-id="' + data[i].id + '" class="chal">删除</span></div>';
+                        }
+
+
+                    }
+                    $(".container_dzgl").html(content)
+
+                    var hrs = window.location.search.substr(1)
+                    console.log(hrs)
+                    if (hrs == 999) {
+                        $(".hrf").on('click', function () {
+                            var hgs = $(this).attr("data-id")
+                            $(this).attr('href', 'order.html?' + hgs + '');
+                        })
+
+                        $(".hrf").removeAttr("href")
+
+
+                    }
+
+
+                    $(".chal").on('click', function () {
+                        var thisid = $(this).attr("data-id")
+                        $.ajax({
+                            type: "get",
+                            url: "http://www.flyxiu.com/api/user/address/del",
+                            data: ({"addr_id": thisid}),
+                            headers: {
+                                'XX-Device-Type': $.cookie('device_type'),
+                                'XX-Token': $.cookie('token'),
+                            },
+                            success: function (data) {
+                                console.log(data)
+                                if (data.code == 1) {
+                                    $(".fade_gxs").show();
+                                    $(".ts_gx").text("删除成功...请稍等正在为您处理")
+                                    setTimeout(function () {
+                                        window.location.reload()
+                                    }, 1000);
+                                }
+
+                            }
+
+                        })
+
+                    })
+
+
+                }
+
+            }
+
+        })
+        /*列表数据获取结束*/
+        $(".dzgl_footer").on('click', function () {
+            window.location.href = "diz.html"
+
+        })
+
+
+    })
+</script>
+</html>

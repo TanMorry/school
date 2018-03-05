@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=750px, user-scalable=true"/>
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html;"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="keywords" content="keyword ..."/>
+    <meta name="Description" content="description ..."/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/animate.min.css"/>
+    <script type="text/javascript" src="js/ali.js"></script>
+    <script type="text/javascript" src="js/rem.js"></script>
+    <script type="text/javascript" src="js/wechat.js"></script>
+    <title>订单确认</title>
+</head>
+<body class="corder_back">
+<span class="zz_id"></span>
+<span class="price_id"></span>
+<span class="pw_id"></span>
+<span class="numbers"></span>
+<!--/*自存ID*/-->
+<form>
+    <div class="fadesl bounceInUp animated">
+        <p class="ts_yn"></p>
+    </div>
+    <div class="fades bounceInUp animated">
+        <div class="fade_order">
+
+        </div>
+
+    </div>
+
+
+    <!--/*弹出层处理*/-->
+
+
+    <div class="order_header">
+        <p>加拿大太阳马戏团《KooZA》巡演</p>
+        <div class="pv_dv">
+            <div><img class="cimg" src="images/blxqh5piaowu_03.png"/>
+                <div class="rqi_day">2018-1-28</div>
+            </div>
+            <div><img class="cimg" src="images/blxqh5piaowu_07.png"/>
+                <div class="zuz">决定是否接受对方公司发生过覆盖技术的风格</div>
+            </div>
+        </div>
+    </div>
+    <div class="order_content">
+
+
+    </div>
+
+
+    </div>
+    <div class="order_tickets">
+        <P>取票方式</P>
+        <div class="qp_ts"></div>
+        <div class="corder_qp">现场取票</div>
+        <div class="corder_qps">修改地址</div>
+        <p class="dp_re">
+        <div class="xeo">
+
+        </div>
+
+        <div class="corder_phone">
+            <p>
+                <span class="phone_name"></span>
+                <span>
+						（ <span class="phone_sex"></span> ）
+					</span>
+                <span class="phone_mob"></span>
+
+            </p>
+        </div>
+    </div>
+    <div class="order_payment">
+        <p>选择支付方式</p>
+        <a class="chk">
+            <img src="images/blxqh5piaowu_18.png"/>
+            <div>微信支付</div>
+            <label class="olp"></label>
+            <div class="order_check">
+            </div>
+        </a>
+        <div class="order_tyn">
+            <div class="order_checks"></div>
+            <p class="order_tp"><label class="ty_pl"></label><span>同意</span>
+                <i class="dp_k">
+                </i>
+            </p>
+        </div>
+    </div>
+    <div class="order_footer">
+        <div>
+            <p><a class="jg">100</a><a class="jgs">100</a>
+            <div class="yuan">元</div>
+            </p>
+        </div>
+        <div class="Check">去付款</div>
+    </div>
+
+    <script src="js/jqrey.min.js"></script>
+    <script type="text/javascript" src="js/cookie.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+
+            /*返回判断开始*/
+
+
+            /*返回判断结束*/
+
+
+            /*跳转判断*/
+            $(".corder_qps").on('click', function () {
+                var hrf = $(".corder_qps").text()
+                console.log(hrf)
+                if (hrf == "修改地址") {
+
+                    window.location.href = "dzgl.html?999"
+                }
+                if (hrf == "新增地址") {
+                    window.location.href = "diz.html"
+                }
+
+            })
+
+
+            /*跳转判断*/
+
+
+            function pay() {
+                var date_id = $(".price_id").text()
+                var pw = $(".pw_id").text()
+                var nm = $(".numbers").text()
+                var mobs = $(".phone_mob").text()
+                var url = "http://www.flyxiu.com/api/user/payway/submitOrder"
+                $.ajax({
+                    url: url,
+                    headers: {
+                        'XX-Device-Type': 'weixin',
+                        'XX-Token': 'cd17445c355589d38bcbe2bbe0a24214176370c7b26fe4b13dc8011149dcee50',
+                    },
+                    data: ({"date_id": date_id, "ticket_id": pw, "pay_way": 1, "num": nm, "phone": mobs, "type": 2}),
+                    type: 'get',
+                    jsonpCallback: "successCallback",
+                    dataType: 'jsonp',
+                    success: function (res) {
+                        if (res.status == 'ok') {
+                            callpay(res.data);
+                        } else {
+                            alert('支付失败');
+                        }
+                    },
+                    error: function () {
+                        alert('请求失败');
+                    }
+                })
+
+            }
+
+            function jsApiCall(paydata) {
+                var a = paydata;
+//return false;
+                console.log(a.appId + '  ' + a.timeStamp + ' ' + a.nonceStr + ' ' + a.package + ' ' + a.signType + ' ' + a.paySign)
+                WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest', {
+                        "appId": a.appId,     //公众号名称，由商户传入     
+                        "timeStamp": a.timeStamp,         //时间戳，自1970年以来的秒数     
+                        "nonceStr": a.nonceStr, //随机串     
+                        "package": a.package,
+                        "signType": a.signType,         //微信签名方式：     
+                        "paySign": a.paySign//微信签名 
+
+                    },
+                    function (res) {
+                        //console.log('res = '+res);
+                        WeixinJSBridge.log(res.err_msg);
+                        if (res.err_msg == "get_brand_wcpay_request:ok") {
+                            window.location.href = 'ticket.html';
+                        }
+                    }
+                )
+            }
+
+            function callpay(paydata) {
+                //alert(paydata)
+                if (typeof WeixinJSBridge == "undefined") {
+                    if (document.addEventListener) {
+                        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                    } else if (document.attachEvent) {
+                        document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                    }
+                } else {
+                    jsApiCall(paydata);
+                }
+            }
+
+            /*支付请求数据处理结束*/
+            var hesl = window.location.search.substr(1)
+
+            if (hesl == null || hesl == undefined || hesl == "") {
+                var newary = localStorage.getItem("ary");
+                newsary = JSON.parse(newary); //转为JSON
+                console.log(newsary)
+                $.each(newsary, function (key, val) {
+                    var ma = newsary[1]
+                    var mb = newsary[0]
+                    var mc = newsary[2]
+                    var md = newsary[3]
+                    var me = newsary[4]
+                    var mf = newsary[5]
+                    var mg = newsary[6]
+                    $(".order_header p:nth-child(1)").text(ma)
+                    $(".rqi_day").text(mb)
+                    $(".zuz").text(mc)
+                    $(".jg").text(md)
+                    $(".price_id").text(me)
+                    $(".pw_id").text(mf)
+                    $(".numbers").text(mg)
+
+                })
+                $.ajax({
+                    type: "get",
+                    url: "http://www.flyxiu.com/api/user/address/getAddress",
+                    headers: {
+                        'XX-Device-Type': $.cookie('device_type'),
+                        'XX-Token': $.cookie('token'),
+                    },
+                    success: function (data) {
+
+                        if (data.data == "") {
+                            $(".corder_phone p span").hide()
+                            $(".order_tickets").css("height", "2rem")
+                            $(".corder_qps").text("新增地址")
+                        }
+                        if (data.code == 1) {
+
+                            var data = data.data
+                            console.log(data)
+                            $.each(data, function (key, val) {
+                                var skn = data[key].realname
+                                var skns = data[key].sex
+                                var sknsl = data[key].phone
+                                $(".phone_name").text(skn)
+                                $(".phone_sex").text(skns)
+                                $(".phone_mob").text(sknsl)
+                                $(".xeo").append(
+                                    '<div class="ceo">' + data[key].tig + '</div>' +
+                                    '<div class="ceo_dz"><span>' + data[key].province + '</span><span>' + data[key].city + '</span><span>' + data[key].area + '</span><span>' + data[key].street + '</span></div>'
+                                )
+
+
+                            })
+                        }
+
+                    }
+
+                })
+
+
+                /*协议数据对接开始*/
+
+                $.ajax({
+                    type: "get",
+                    url: "http://www.flyxiu.com/api/home/index/documents",
+                    data: ({"type": "order"}),
+                    success: function (data) {
+                        if (data.code == 1) {
+                            var data = data.data
+                            $.each(data, function (key, val) {
+
+                                $(".dp_k").append(
+                                    '<a class="dp_a">' +
+                                    '<label>' +
+                                    '<span class="axy" data-id="' + data[key].id + '"></label>【<label>' + data[key].name + '</label>】<label></span>' +
+                                    '</label>' +
+                                    '</a>'
+                                )
+
+                            })
+                            $(".dp_a").on('click', function () {
+
+                                var id = $(this).find(".axy").attr("data-id")
+                                $(".zz_id").text(id)
+                                var cc_id = $(".zz_id").text()
+                                $.ajax({
+                                    type: "get",
+                                    url: "http://www.flyxiu.com/api/home/index/documents",
+                                    data: ({"id": id}),
+                                    success: function (data) {
+                                        if (data.code == 1) {
+                                            console.log(data)
+                                            $(".fades").show()
+                                            $("body").addClass("over")
+                                            $(".fade_order").html(data.data)
+                                        }
+
+                                    }
+
+                                })
+
+
+                            })
+
+                        }
+
+
+                    }
+
+                })
+
+                /*本地存储*/
+            } else {
+                var hes = window.location.search.substr(1)
+                var newary = localStorage.getItem("ary");
+                newsary = JSON.parse(newary); //转为JSON
+                console.log(newsary)
+                $.each(newsary, function (key, val) {
+                    var hee = window.location.search.substr(1)
+                    var ma = newsary[1]
+                    var mb = newsary[0]
+                    var mc = newsary[2]
+                    var md = newsary[3]
+                    var me = newsary[4]
+                    var mf = newsary[5]
+                    var mg = newsary[6]
+                    $(".order_header p:nth-child(1)").text(ma)
+                    $(".rqi_day").text(mb)
+                    $(".zuz").text(mc)
+                    $(".jg").text(md)
+                    $(".price_id").text(me)
+                    $(".pw_id").text(mf)
+                    $(".numbers").text(hee)
+
+                })
+                var hks = window.location.search.substr(1)
+                $.ajax({
+                    type: "get",
+                    url: "http://www.flyxiu.com/api/user/address/getAddress",
+                    data: ({"id": hks}),
+                    headers: {
+                        'XX-Device-Type': $.cookie('device_type'),
+                        'XX-Token': $.cookie('token'),
+                    },
+                    success: function (data) {
+
+                        if (data.data == "") {
+                            $(".corder_phone p span").hide()
+                            $(".order_tickets").css("height", "2rem")
+                            $(".corder_qps").text("新增地址")
+                        }
+                        if (data.code == 1) {
+
+                            var data = data.data
+                            console.log(data)
+                            $.each(data, function (key, val) {
+                                var skn = data[key].realname
+                                var skns = data[key].sex
+                                var sknsl = data[key].phone
+                                $(".phone_name").text(skn)
+                                $(".phone_sex").text(skns)
+                                $(".phone_mob").text(sknsl)
+                                $(".xeo").append(
+                                    '<div class="ceo">' + data[key].tig + '</div>' +
+                                    '<div class="ceo_dz"><span>' + data[key].province + '</span><span>' + data[key].city + '</span><span>' + data[key].area + '</span><span>' + data[key].street + '</span></div>'
+                                )
+
+
+                            })
+                        }
+
+                    }
+
+                })
+
+
+                /*协议数据对接开始*/
+
+                $.ajax({
+                    type: "get",
+                    url: "http://www.flyxiu.com/api/home/index/documents",
+                    data: ({"type": "order"}),
+                    success: function (data) {
+                        if (data.code == 1) {
+                            var data = data.data
+                            $.each(data, function (key, val) {
+
+                                $(".dp_k").append(
+                                    '<a class="dp_a">' +
+                                    '<label>' +
+                                    '<span class="axy" data-id="' + data[key].id + '"></label>【<label>' + data[key].name + '</label>】<label></span>' +
+                                    '</label>' +
+                                    '</a>'
+                                )
+
+                            })
+                            $(".dp_a").on('click', function () {
+
+                                var id = $(this).find(".axy").attr("data-id")
+                                $(".zz_id").text(id)
+                                var cc_id = $(".zz_id").text()
+                                $.ajax({
+                                    type: "get",
+                                    url: "http://www.flyxiu.com/api/home/index/documents",
+                                    data: ({"id": id}),
+                                    success: function (data) {
+                                        if (data.code == 1) {
+                                            console.log(data)
+                                            $(".fades").show()
+                                            $("body").addClass("over")
+                                            $(".fade_order").html(data.data)
+                                        }
+
+                                    }
+
+                                })
+
+
+                            })
+
+                        }
+
+
+                    }
+
+                })
+
+                /*本地存储*/
+
+
+            }
+
+
+            /*协议数据对接结束*/
+
+
+            /*数据对接*/
+
+
+            var n = 0;
+            var k = 0;
+            var m = 0;
+
+            /*变量声明*/
+
+
+            /*购物结算*/
+
+
+            $(".Number_right").click(function () {
+                $(".jg").hide();
+                $(".jgs").show();
+                var pple = $("input[name=pple]").val()
+                var prices = $(".jg").text()
+                pples = parseInt(pple) + 1
+                ples = pples * prices
+                $(".jgs").text(ples)
+                $("input[name=pple]").val(pples)
+            })
+            $(".Number_left").click(function () {
+                $(".jg").hide();
+                $(".jgs").show();
+                var pple = $("input[name=pple]").val()
+                var pce = $(".jg").text()
+                pces = (parseInt(pple) - 1) * pce
+                pplesl = parseInt(pple) - 1
+                $(".jgs").text(pces)
+                $("input[name=pple]").val(pplesl)
+                if (pplesl <= 0) {
+                    $("input[name=pple]").val("1")
+                    $(".jgs").text(pce)
+                } else {
+
+                }
+            })
+
+            /*取票方式*/
+
+            $(".corder_qp").on('click', function () {
+                $(this).toggleClass("qP_xz")
+                if ($(this).hasClass("qP_xz")) {
+                    $(".qp_ts").hide()
+                    $(".qp_ts").text("")
+                    m = 1
+                } else {
+                    m = 0
+                }
+            })
+
+
+            /*同意协议*/
+
+            $(".chk").on('click', function () {
+                $(".order_check").toggleClass("ck")
+                if ($(".order_check").hasClass("ck")) {
+                    $(".olp").hide()
+                    $(".olp").text("")
+                    n = 1
+                } else {
+                    n = 0
+                    $(".olp").show()
+                    $(".olp").text("*")
+                }
+                console.log(n)
+            })
+            $(".order_checks").on('click', function () {
+                $(".order_checks").toggleClass("cks")
+                if ($(".order_checks").hasClass("cks")) {
+                    $(".ty_pl").hide();
+                    $(".ty_pl").text("");
+                    k = 1
+                } else {
+                    k = 0
+                    $(".ty_pl").show();
+                    $(".ty_pl").text("*");
+                }
+
+
+            })
+
+
+            /*协议查看*/
+
+
+            $(".fades").on('click', function () {
+                $(".fades").hide()
+                $("body").removeClass("over")
+            })
+
+
+            /*手机验证*/
+
+            $("input[name=phone]").on('change', function () {
+                var phone = $(this).val()
+                if (!(/^1[34578]\d{9}$/.test(phone))) {
+                    $(".lx_ts").show()
+                    $(".lx_ts").text("*")
+
+                } else {
+                    $(".lx_ts").hide()
+                    $(".lx_ts").text("")
+                }
+            })
+            $("input[name=phone]").on('blur', function () {
+                var phones = $(this).val()
+                if (!(/^1[34578]\d{9}$/.test(phones))) {
+                    $(".lx_ts").show()
+                    $(".lx_ts").text("*")
+
+                } else {
+                    $(".lx_ts").hide()
+                    $(".lx_ts").text("")
+                }
+            })
+
+            $("input[name=phone]").on('keyup', function () {
+                var phones = $(this).val()
+                if (!(/^1[34578]\d{9}$/.test(phones))) {
+
+                    $(".lx_ts").show()
+                    $(".lx_ts").text("*")
+
+                } else {
+                    $(".lx_ts").hide()
+                    $(".lx_ts").text("")
+                }
+
+            })
+            $("input[name=phone]").on('keydown', function () {
+                var phones = $(this).val()
+                console.log(phones)
+                if (!(/^1[34578]\d{9}$/.test(phones))) {
+
+                    $(".lx_ts").show()
+                    $(".lx_ts").text("*")
+
+                } else {
+                    $(".lx_ts").hide()
+                    $(".lx_ts").text("")
+                }
+
+            })
+
+
+            /*表单提交*/
+
+            $(".Check").click(function () {
+
+                if (!($(".corder_qp").hasClass("qP_xz"))) {
+                    $(".qp_ts").show();
+                    $(".qp_ts").text("*")
+                    return false
+                }
+                if (!($(".order_check").hasClass("ck"))) {
+                    $(".olp").show();
+                    $(".olp").text("*")
+                    return false
+                }
+                if (!($(".order_check").hasClass("ck"))) {
+                    $(".olp").show();
+                    $(".olp").text("*")
+                    return false
+                }
+                if (!($(".order_checks").hasClass("cks"))) {
+                    $(".ty_pl").show();
+                    $(".ty_pl").text("*")
+                    return false
+                }
+                /*支付请求数据处理开始*/
+
+                pay()
+            })
+
+        })
+    </script>
+</form>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=750px, user-scalable=true"/>
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html;"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="keywords" content="keyword ..."/>
+    <meta name="Description" content="description ..."/>
+    <link rel="stylesheet" href="css/animate.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script type="text/javascript" src="js/jqrey.min.js"></script>
+    <script type="text/javascript" src="js/cookie.js"></script>
+
+    <script type="text/javascript" src="js/ali.js"></script>
+    <script type="text/javascript" src="js/rem.js"></script>
+    <title>意见反馈</title>
+</head>
+<body class="corder_back">
+<form method="post" action enctype="multipart/form-data">
+    <div class="fade_fk bounceInUp animated">
+        <p class="ts_fk"></p>
+    </div>
+    <span class="boxns"></span>
+    <!--/*存值*/-->
+    <div class="feed_header">
+        <div>请填写反馈内容</div>
+    </div>
+    <div class="feed_container">
+        <textarea name="content" rows="6" cols="80"
+                  onpropertychange="if(this.scrollHeight>80) this.style.posHeight=this.scrollHeight+5">请详细描诉问题，便于技术人员为您解决</textarea>
+        <div class="uploads">
+            <div>
+                <label>
+                    <img class="fk_as" src="images/xj_phone.png">
+
+                    <input class="fk_a" name="file" accept="image/*" type="file"/>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="lx_phone">
+        <div>联系方式</div>
+    </div>
+    <div class="lx_phones">
+        <div>手机号码</div>
+        <input type="text" name="mob" placeholder="请输入您的手机号码" onfocus="this.placeholder=''"
+               onblur="this.placeholder='请输入您的手机号码'"/>
+    </div>
+    <div class="feed_footer">
+        提交反馈
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            /*评论存值*/
+            /*************/
+            /*************/
+            /*************/
+            /*************/
+            /*************/
+
+
+            $("textarea[name=content]").on('focus', function () {
+                $(this).css("color", "#333333")
+                var centr = $(this).val()
+                if (centr == "请详细描诉问题，便于技术人员为您解决") {
+                    $(this).val("")
+                } else {
+                    $(this).val()
+                    $(".boxns").text(centr)
+
+                }
+
+            })
+            $("textarea[name=content]").on('blur', function () {
+
+                var centr = $(this).val()
+                if (centr == "请详细描诉问题，便于技术人员为您解决") {
+                    $(this).val("请详细描诉问题，便于技术人员为您解决")
+                    $(this).css("color", "#b3b3b3")
+                } else {
+                    $(this).val()
+                    $(this).css("color", "#333")
+                    $(".boxns").text(centr)
+
+                }
+
+            })
+
+            $("textarea[name=content]").on('keyup', function () {
+                $(".fade_fk").hide()
+                $(".ts_fk").text("")
+                $(this).css("color", "#333333")
+                var centr = $(this).val()
+                if (centr == "") {
+                    $(this).css("color", "#b3b3b3")
+                    $(this).val("请详细描诉问题，便于技术人员为您解决")
+                }
+                if (centr == "请详细描诉问题，便于技术人员为您解决") {
+                    $(this).val("")
+                }
+
+            })
+            $("textarea[name=content]").on('keydown', function () {
+                var centr = $(this).val()
+                if (centr == "请详细描诉问题，便于技术人员为您解决") {
+                    $(this).val("")
+                } else {
+                    $(".boxns").text(centr)
+                }
+
+
+            })
+            /*照片上传*/
+            /*************/
+            /*************/
+            /*************/
+            /*************/
+            /*************/
+            $(".fk_a").click(function () {
+                $(".fk_a").on("change", function () {
+                    var objUrl = getObjectURL(this.files[0]);
+                    if (objUrl) {
+                        $(".fk_as").attr("src", objUrl);
+                    }
+                });
+            });
+
+
+            function getObjectURL(file) {
+                var url = null;
+                if (window.createObjectURL != undefined) { // basic
+                    url = window.createObjectURL(file);
+                } else if (window.URL != undefined) { // mozilla(firefox)
+                    url = window.URL.createObjectURL(file);
+                } else if (window.webkitURL != undefined) { // webkit or chrome
+                    url = window.webkitURL.createObjectURL(file);
+                }
+                return url;
+            }
+
+            /*手机验证*/
+            /*************/
+            /*************/
+            /*************/
+            /*************/
+            /*************/
+            $("input[name=mob]").on('change', function () {
+                var phone = $(this).val()
+                if (!(/^1[34578]\d{9}$/.test(phone))) {
+                    $(".fade_fk").show()
+                    $(".ts_fk").text("手机输入错误请重新输入")
+
+                } else {
+                    $(".fade_fk").hide()
+                    $(".ts_fk").text("")
+                }
+            })
+            $("input[name=mob]").on('blur', function () {
+                var phones = $(this).val()
+                if (!(/^1[34578]\d{9}$/.test(phones))) {
+                    $(".fade_fk").show()
+                    $(".ts_fk").text("手机输入错误请重新输入")
+
+                } else {
+                    $(".fade_fk").hide()
+                    $(".ts_fk").text("")
+                }
+            })
+
+            $("input[name=mob]").on('keyup', function () {
+                var phones = $(this).val()
+                if (!(/^1[34578]\d{9}$/.test(phones))) {
+                    $(".fade_fk").show()
+                    $(".ts_fk").text("手机输入错误请重新输入")
+
+                } else {
+                    $(".fade_fk").hide()
+                    $(".ts_fk").text("")
+                }
+
+            })
+            $("input[name=mob]").on('keydown', function () {
+                var phones = $(this).val()
+                if (!(/^1[34578]\d{9}$/.test(phones))) {
+                    $(".fade_fk").show()
+                    $(".ts_fk").text("手机输入错误请重新输入")
+
+                } else {
+                    $(".fade_fk").hide()
+                    $(".ts_fk").text("")
+                }
+
+            })
+            /*表单提交*/
+            /*************/
+            /*************/
+            /*************/
+            /*************/
+            /*************/
+            $(".feed_footer").on('click', function () {
+                var a = $("textarea[name=content]").val()
+                var b = $("input[name=mob]").val()
+                if (a == "请详细描诉问题，便于技术人员为您解决") {
+                    $(".fade_fk").show()
+                    $(".ts_fk").text("请评论内容后再提交")
+                    return false
+
+                }
+                if (!(/^1[34578]\d{9}$/.test(b))) {
+                    $(".fade_fk").show()
+                    $(".ts_fk").text("手机输入错误请重新输入")
+                    return false
+
+                }
+
+                var formData = new FormData($("form")[0]);
+                $.ajax({
+                    url: "http://www.flyxiu.com/api/user/mine/add_feedback",
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'XX-Device-Type': $.cookie('device_type'),
+                        'XX-Token': $.cookie('token'),
+                    },
+                    success: function (data) {
+                        console.log(data)
+                    },
+                });
+
+
+                $(".fade_fk").show()
+                $(".ts_fk").text("反馈提交成功")
+
+                setTimeout(function () {
+//                		 window.location.href="usercenter.html"
+                }, 3000);
+
+            })
+        })
+    </script>
+</form>
+</body>
+</html>

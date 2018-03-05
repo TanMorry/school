@@ -1,0 +1,4 @@
+array (
+  'good_id' => 54,
+  'size_id' => 51,
+)

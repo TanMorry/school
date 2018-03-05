@@ -1,0 +1,126 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('ActivityScheduleArrange/index')}">{:lang('ADMIN_ACTIVITY_SCHEDULE_INDEX')}</a></li>
+			<li><a href="{:url('ActivityScheduleArrange/add_schedule')}">{:lang('ADMIN_ACTIVITY_SCHEDULE_ADD')}</a></li>
+		</ul>
+		<form class="well form-inline margin-top-20" method="post" action="{:url('ActivityScheduleArrange/index')}">
+			活动:
+			<select class="form-control" name="activity_id" style="width: 140px;" onchange="change_activity($(this).val())">
+				<volist name="activityList" id="vo">
+				    <php>$selected=($activity_id==$vo['id'])?'selected':''</php>
+					<option value='{$vo.id}' {$selected}>{$vo.title}</option>
+				</volist>
+
+			</select> &nbsp;&nbsp;
+            方案:
+            <select class="form-control" name="scheme_id" style="width: 140px;">
+                <option value='0' >全部</option>
+            </select> &nbsp;&nbsp;
+			<!--时间:-->
+			<!--<input type="text" class="form-control js-bootstrap-datetime" name="start_time"-->
+				   <!--value="{$start_time|default=''}"-->
+				   <!--style="width: 140px;" autocomplete="off">-->
+			<!--<input type="text" class="form-control js-bootstrap-datetime" name="end_time"-->
+				   <!--value="{$end_time|default=''}"-->
+				   <!--style="width: 140px;" autocomplete="off"> &nbsp; &nbsp;-->
+			<!--订单号:-->
+			<!--<input type="text" class="form-control" name="order_id" style="width: 200px;"-->
+				   <!--value="{$order_id|default=''}" placeholder="请输入订单号...">-->
+			<input type="submit" class="btn btn-primary" value="搜索"/>
+			<a class="btn btn-danger" href="{:url('ActivityScheduleArrange/index')}">清空</a>
+		</form>
+		<table class="table table-hover table-bordered">
+			<thead>
+				<tr>
+					<th width="40">ID</th>
+					<th align="left">{:lang('ACTIVITY_NAME')}</th>
+					<th align="left">{:lang('ACTIVITY_SCHEME_NAME')}</th>
+					<th align="left">日程名称</th>
+					<th align="left">{:lang('ADMIN_ACTIVITY_SCHEDULE_TIME')}</th>
+					<th align="left">{:lang('ACTIVITY_SCHEDULE_SRC')}</th>
+					<th align="left">{:lang('ACTIVITY_SCHEDULE_DESCRIPTION')}</th>
+					<th width="160">{:lang('ACTIONS')}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<foreach name="data" item="vo">
+				<tr>
+					<td>{$vo.id}</td>
+					<td>{$vo.title}</td>
+					<td>{$vo.name}</td>
+					<td>{$vo.arrange_name}</td>
+					<td>
+						<php>
+							$starttime=date("Y-m-d H:i",$vo['start_time']);
+							$endtime=date("Y-m-d H:i",$vo['end_time']);
+						</php>
+						{$starttime}&nbsp;至&nbsp;{$endtime}
+					</td>
+					<td>
+					<php>
+						$url = json_decode($vo['arrange_src'],true);
+					</php>
+					<foreach name="url['photos']" item="u">
+						<php>$img_url=cmf_get_image_preview_url($u['url']);</php>
+						<img src="{$img_url}" width="50px" height="50px";/>
+					</foreach>
+					</td>
+					<td>{$vo.detail}</td>
+
+					<td>
+						<a href="{:url('ActivityScheduleArrange/edit_schedule',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+						<a class="js-ajax-delete" href="{:url('ActivityScheduleArrange/del_schedule',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+					</td>
+				</tr>
+				</foreach>
+			</tbody>
+		</table>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>
+<script>
+	$(function () {
+        change_activity("{$activity_id}");
+    })
+    function change_activity(id){
+
+		var url = '/baolixiaoqu/public/api/home/activity/ajax_scheme'
+        $.ajax({
+            url:url,
+            data:{'activity_id':id},
+            type:'post',
+			dataType:'json',
+			success:function(res){
+                if(res.code == 1){
+                    handle_scheme(res.data);
+                }else{
+                    alert('请求失败')
+				}
+			},
+			error:function(){
+				alert('请求失败')
+			}
+        })
+    }
+
+    function handle_scheme(data){
+		var str = "";
+		if(data.length>0){
+            for(var i=0;i<data.length;i++){
+                if("{$scheme_id}" == data[i]['id']){
+                    str += '<option value="'+data[i]['id']+'" selected>'+data[i]['name']+'</option>'
+                }else{
+                    str += '<option value="'+data[i]['id']+'">'+data[i]['name']+'</option>'
+                }
+            }
+		}else{
+			str = "<option value='0' >全部</option>";
+		}
+
+		$("select[name='scheme_id']").html(str);
+	}
+</script>

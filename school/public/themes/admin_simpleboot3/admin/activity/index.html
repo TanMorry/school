@@ -1,0 +1,66 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('Activity/index')}">{:lang('ADMIN_ACTIVITY_INDEX')}</a></li>
+			<li><a href="{:url('Activity/add_activity')}">{:lang('ADMIN_ACTIVITY_ADD')}</a></li>
+		</ul>
+		<!--<form action="{:url('Rbac/listorders')}" method="post" class="margin-top-20">-->
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th width="40">ID</th>
+						<th align="left">{:lang('ACTIVITY_NAME')}</th>
+						<th align="left">{:lang('ACTIVITY_SRC')}</th>
+						<th align="left">活动类型</th>
+						<th align="left">适合年龄段</th>
+						<th align="left">活动价格</th>
+						<th align="left">活动促销价格</th>
+						<th align="left">库存</th>
+						<!--<th align="left">{:lang('ACTIVITY_DESCRIPTION')}</th>-->
+						<th width="60" align="left">推荐</th>
+						<th width="160">{:lang('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<foreach name="data.list" item="vo">
+					<tr>
+						<td>{$vo.id}</td>
+						<td>{$vo.title}</td>
+						<td>
+						<php>
+							$url = json_decode($vo['img_src'],true);
+						</php>
+							<foreach name="url['photos']" item="u">
+								<php>$img_url=cmf_get_image_preview_url($u['url']);</php>
+								<img src="{$img_url}" width="50px" height="50px";/>
+							</foreach>
+						</td>
+						<td>{$vo.type==1?'活动':'票务'}</td>
+						<td>{$vo.age}</td>
+						<td>{$vo.price}</td>
+						<td>{$vo.formerprice}</td>
+						<td>{$vo.stock}</td>
+					<!--	<php>$com = cmf_replace_content_file_url(htmlspecialchars_decode($vo['detail']))</php>
+						<td>{$com}</td>-->
+						<td>
+							<if condition="$vo['recommended'] eq 1">
+								<font color="red">是</font>
+								<else />
+								<font color="red">否</font>
+							</if>
+						</td>
+						<td>
+							<a href="{:url('Activity/edit_activity',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+							<a class="js-ajax-delete" href="{:url('Activity/del_activity',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+						</td>
+					</tr>
+					</foreach>
+				</tbody>
+			</table>
+		<!--</form>-->
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

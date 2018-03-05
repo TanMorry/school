@@ -1,0 +1,138 @@
+
+        $('.case-item').click(function() {
+            window.location.href = $(this).attr('data-href');
+        });
+        $(document).ready(function() {
+        	var tk = 1
+            $("#loading").hide();
+            $.ajax({
+                    type: "post",
+                    url: "/indigo/index.php?m=home&c=event&a=busi",
+                    data: {
+                        "p": 0
+                    },
+                    success: function(data) { //成功后回调
+                        	$.each(data, function(key, val) { 
+                        		$(".lisy ul").append(
+                        			'<a class="coa" href="'+ data[key].url +'">'+
+                        			'<li class="case-item">'+
+                        			'<div>'+
+                        			    '<img src="'+ data[key].image +'"  />'+    
+                        			'</div>'+
+                        			   '<div>'+
+                        			   '<p>'+data[key].title+'</p>'+
+                        			   '<p>'+data[key].content+'</p>'+
+                        			   '<span>'+data[key].time+'</span>'+
+                        			   '</div>'+
+                        			'</li>'+
+                        			'</a>'
+                             	
+                             )
+                        		
+                        		
+                        	})
+
+                           
+
+                                //                 $(".mygds").text("已经没有更多了");
+
+                            }
+
+
+                        
+                        //beforeSend: function(){  /发送请求前调用，可以放一些"正在加载"之类额话
+                        //    alert("正在加载");
+                        //}
+                        //})
+                })
+                //第一次请求数据
+                
+                
+                $(".lisy").scroll(function () {
+              var h = $(this).height();
+              var sh = $(this)[0].scrollHeight;
+              var st =$(this)[0].scrollTop;
+              if(h+st>=sh-10){
+              	
+                           $.ajax({
+            type: "post",
+            url: "/indigo/index.php?m=home&c=event&a=busi",
+               data: {"p":tk},
+            success: function (data) {  
+              		if(data==null){
+              			console.log("郁闷")
+              		}else{
+              			$(".mygds").text("已经没有更多了")
+              		}
+              	$.each(data, function(key, val) { 
+              		if(typeof val == "object"){
+              			$(".lisy ul").append(
+                        			'<a class="coa" href="'+ data[key].url +'">'+
+                        			'<li class="case-item">'+
+                        			'<div>'+
+                        			    '<img src="'+ data[key].image +'"  />'+    
+                        			'</div>'+
+                        			   '<div>'+
+                        			   '<p>'+data[key].title+'</p>'+
+                        			   '<p>'+data[key].content+'</p>'+
+                        			   '<span>'+data[key].time+'</span>'+
+                        			   '</div>'+
+                        			'</li>'+
+                        			'</a>'
+                             	
+                             )
+              		}
+                                           
+                       
+				}); 
+
+             
+              	      tk+=1        
+//                
+              
+              }
+
+	                   
+//                     	console.log(nums)
+            
+            
+                           
+                           
+            //beforeSend: function(){  /发送请求前调用，可以放一些"正在加载"之类额话
+            //    alert("正在加载");
+            //}
+            //})
+        })
+              	
+              	
+              	
+              	
+              	
+              	
+              }
+                	
+                	
+                })
+                
+                
+                //滚动加载
+                
+                
+            var swiper = new Swiper('.swiper-container', {
+                pagination: '.swiper-pagination',
+                paginationClickable: true,
+                spaceBetween: 30,
+                mousewheelControl: true,
+                onInit: function(swiper) {
+                    swiperAnimateCache(swiper);
+                    swiperAnimate(swiper);
+                },
+                onSlideChangeEnd: function(swiper) {
+                    swiperAnimate(swiper);
+                },
+                onTransitionEnd: function(swiper) {
+                    swiperAnimate(swiper);
+                },
+            });
+        })
+    

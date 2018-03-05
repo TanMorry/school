@@ -1,0 +1,60 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('Video/index')}">视频列表</a></li>
+			<li><a href="{:url('Video/add')}">添加视频</a></li>
+		</ul>
+			<table class="table table-hover table-bordered" style='table-layout:fixed;'>
+				<thead>
+					<tr>
+						<th width="5%">ID</th>
+						<th width="10%">视频名称</th>
+						<th width="10%">视频封面</th>
+						<th width="120">视频播放</th>
+						<th width="10%">视频价格</th>
+						<!--<th width="35%">视频详情</th>-->
+						<th width="10%">创建时间</th>
+						<th width="10%">{:lang('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<foreach name="data" item="vo">
+					<tr>
+						<td>{$vo.id}</td>
+						<td>{$vo.name}</td>
+						<td>
+							<php>
+								$url = json_decode($vo['cover_src'],true);
+							</php>
+							<foreach name="url['photos']" item="u">
+								<php>$img_url=cmf_get_image_preview_url($u['url']);</php>
+								<img src="{$img_url}" width="50px" height="50px";/>
+							</foreach>
+						</td>
+						<td>
+							<php>
+								$url = json_decode($vo['file_src'],true);
+							</php>
+							<foreach name="url['videos']" item="u">
+								<php>$video_url=cmf_get_image_preview_url($u['url']);</php>
+								<video src="{$video_url}" width="100" height="90" controls="controls"></video>
+							</foreach>
+						</td>
+						<td>{$vo.price}</td>
+<!--						<php>$com = cmf_replace_content_file_url(htmlspecialchars_decode($vo['detail']))</php>
+						<td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{$com}</td>-->
+						<td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
+						<td>
+							<a href="{:url('Video/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+							<a class="js-ajax-delete" href="{:url('Video/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+						</td>
+					</tr>
+					</foreach>
+				</tbody>
+			</table>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=750px, user-scalable=true"/>
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html;"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="keywords" content="keyword ..."/>
+    <meta name="Description" content="description ..."/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/animate.min.css"/>
+    <script type="text/javascript" src="js/ali.js"></script>
+    <script type="text/jscript" src="js/rem.js"></script>
+    <!--    <script type="text/javascript" src="js/wechat.js"></script>-->
+    <!---------------------------------------------------------------------------------------------->
+    <script type="text/javascript" src="js/datePicker.js"></script>
+    <script type="text/javascript" src="js/jqrey.min.js"></script>
+    <!--<script type="text/javascript" src="js/wex.js"></script>-->
+    <script type="text/javascript" src="js/cookie.js"></script>
+
+    <title>童乐会</title>
+</head>
+<body class="corder_back bod">
+<form>
+    <span class="gx_n">2</span>
+    <span class="rq"></span>
+    <span class="age_k">1</span>
+
+    <!--/*存值*/-->
+    <div class="fade_gx bounceInUp animated">
+        <p class="ts_gx"></p>
+    </div>
+    <div class="chman_header">
+        <div>请设置小会员的资料</div>
+        <div>成为小会员可以享受会员优待</div>
+    </div>
+    <div class="chman_content">
+        <div class="chman_a">
+            <div>
+                姓名
+            </div>
+            <div>
+                <input type="text" name="user" placeholder="请输入小会员的姓名" onfocus="this.placeholder=''"
+                       onblur="this.placeholder='请输入小会员的姓名'"/>
+            </div>
+            <div>
+                <img src="images/myd.png"/>
+            </div>
+        </div>
+        <div class="chman_a">
+            <div>
+                昵称
+            </div>
+            <div>
+                <input type="text" name="nickname" placeholder="请输入小会员的昵称" onfocus="this.placeholder=''"
+                       onblur="this.placeholder='请输入小会员的昵称'"/>
+            </div>
+            <div>
+                <img src="images/myd.png"/>
+            </div>
+        </div>
+        <div class="chman_b">
+            <div>性别</div>
+            <div class="Rens_age">
+                <div class="age_left bk">✔</div>
+                <span>男生</span>
+                <div class="age_right"></div>
+                <span>女生</span>
+            </div>
+        </div>
+        <div class="chman_a">
+            <a>
+                <div>出生日期</div>
+                <div>
+                    <input id="demo1" type="text" readonly="readonly" placeholder="选择日期"
+                           data-lcalendar="2011-01-1,2019-12-31"/>
+                </div>
+                <div>请选择 ></div>
+            </a>
+        </div>
+    </div>
+    <div class="chman_contents">
+        请设置家长的联系方式
+    </div>
+    <div class="chman_contentl">
+        <div>关系</div>
+        <div class="gx">
+
+        </div>
+
+    </div>
+    <div class="chman_contentk">
+        <div>手机号</div>
+        <div>
+            <input type="text" name="mob" placeholder="请输入联系家长的手机号" onfocus="this.placeholder=''"
+                   onblur="this.placeholder='请输入联系家长的手机号'"/>
+        </div>
+    </div>
+    <div class="chman_footer">提交信息</div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "get",
+            url: "http://www.flyxiu.com/api/user/mine/child_relation",
+            headers: {
+                'XX-Device-Type': $.cookie('device_type'),
+                'XX-Token': $.cookie('token'),
+            },
+            success: function (data) {
+                if (data.code == 1) {
+                    var tema = data.data
+                    $.each(tema, function (key, val) {
+                        $(".gx").append(
+                            '<div class="gxa">' +
+                            '<div class="Checks" id="' + tema[key].id + '"></div><span>' + tema[key].name + '</span>' +
+                            '</div>'
+                        )
+                    })
+
+                }
+
+                /*关系选择*/
+                $(".gx .gxa:nth-child(1) .Checks").addClass("bks")
+                $(".gx .gxa:nth-child(1) .Checks").text("✔")
+                $(".gx .gxa .Checks").on('click', function () {
+                    var idr = $(this).attr("id")
+                    $(".gx_n").text(idr)
+                    $(this).addClass("bks").text("✔").parent(".gxa").siblings(".gxa").find(".Checks").removeClass("bks").text("");
+                    if ($(this).hasClass("bks")) {
+                        n = 1
+                        $(".fade_gx").hide();
+                        $(".ts_gx").text("")
+                    }
+
+                })
+                /*关系选择结束*/
+            }
+
+        })
+        /*关系请求*/
+        var n = 0
+        $("input[name=user]").on('change', function () {
+            var use = $(this).val()
+            if (use == null || use == undefined || use == "") {
+                $(".fade_gx").show()
+                $(".ts_gx").text("姓名不能为空")
+            } else {
+                $(".fade_gx").hide()
+                $(".ts_gx").text("")
+            }
+        })
+
+        $("input[name=user]").on('blur', function () {
+            var usel = $(this).val()
+            if (usel == null || usel == undefined || usel == "") {
+                $(".fade_gx").show()
+                $(".ts_gx").text("姓名不能为空")
+            } else {
+                $(".fade_gx").hide()
+                $(".ts_gx").text("")
+            }
+        })
+        $("input[name=user]").on('keyup', function () {
+            var usel = $(this).val()
+            if (usel == null || usel == undefined || usel == "") {
+                $(".fade_gx").show()
+                $(".ts_gx").text("姓名不能为空")
+            } else {
+                $(".fade_gx").hide()
+                $(".ts_gx").text("")
+            }
+        })
+        $("input[name=user]").on('keydown', function () {
+            var usel = $(this).val()
+            if (usel == null || usel == undefined || usel == "") {
+                $(".fade_gx").show()
+                $(".ts_gx").text("姓名不能为空")
+            } else {
+                $(".fade_gx").hide()
+                $(".ts_gx").text("")
+            }
+        })
+
+
+        /*联系人姓名*/
+        $("input[name=nickname]").on('change', function () {
+            var use = $(this).val()
+            if (use == null || use == undefined || use == "") {
+                $(".fade_gx").show()
+                $(".ts_gx").text("昵称不能为空")
+            } else {
+                $(".fade_gx").hide()
+                $(".ts_gx").text("")
+            }
+        })
+
+        $("input[name=nickname]").on('blur', function () {
+            var usel = $(this).val()
+            if (usel == null || usel == undefined || usel == "") {
+                $(".fade_gx").show()
+                $(".ts_gx").text("昵称不能为空")
+            } else {
+                $(".fade_gx").hide()
+                $(".ts_gx").text("")
+            }
+        })
+        $("input[name=nickname]").on('keyup', function () {
+            var usel = $(this).val()
+            if (usel == null || usel == undefined || usel == "") {
+                $(".fade_gx").show()
+                $(".ts_gx").text("昵称不能为空")
+            } else {
+                $(".fade_gx").hide()
+                $(".ts_gx").text("")
+            }
+        })
+        $("input[name=nickname]").on('keydown', function () {
+            var usel = $(this).val()
+            if (usel == null || usel == undefined || usel == "") {
+                $(".fade_gx").show()
+                $(".ts_gx").text("昵称不能为空")
+            } else {
+                $(".fade_gx").hide()
+                $(".ts_gx").text("")
+            }
+        })
+
+
+        /*联系人昵称*/
+        $(".age_right").on('click', function () {
+            $(this).addClass("bk").text("√").siblings(".age_left").removeClass("bk").text("")
+            if ($(this).hasClass("bk")) {
+                n = 2
+                $(".fade_gx").hide();
+                $(".ts_gx").text("")
+            }
+            $(".age_k").text(n)
+
+        })
+        $(".age_left").on('click', function () {
+            $(this).addClass("bk").text("√").siblings(".age_right").removeClass("bk").text("")
+            if ($(this).hasClass("bk")) {
+                n = 1
+                $(".fade_gx").hide();
+                $(".ts_gx").text("")
+            }
+            $(".age_k").text(n)
+        })
+
+
+        /*性别选择*/
+
+
+        $("input[name=mob]").on('change', function () {
+            var phone = $(this).val()
+            console.log(phone)
+            if (!(/^1[34578]\d{9}$/.test(phone))) {
+                $(".fade_gx").show();
+                $(".ts_gx").text("手机号码输入错误请重新输入")
+            } else {
+                $(".fade_gx").hide();
+                $(".ts_gx").text("")
+            }
+        })
+        $("input[name=mob]").on('blur', function () {
+            var phones = $(this).val()
+            if (!(/^1[34578]\d{9}$/.test(phones))) {
+                $(".fade_gx").show();
+                $(".ts_gx").text("手机号码输入错误请重新输入")
+            } else {
+                $(".fade_gx").hide();
+                $(".ts_gx").text("")
+            }
+        })
+        $("input[name=mob]").on('keyup', function () {
+            var phones = $(this).val()
+            if (!(/^1[34578]\d{9}$/.test(phones))) {
+                $(".fade_gx").show();
+                $(".ts_gx").text("手机号码输入错误请重新输入")
+            } else {
+                $(".fade_gx").hide();
+                $(".ts_gx").text("")
+            }
+        })
+        $("input[name=mob]").on('keydown', function () {
+            var phones = $(this).val()
+            if (!(/^1[34578]\d{9}$/.test(phones))) {
+                $(".fade_gx").show();
+                $(".ts_gx").text("手机号码输入错误请重新输入")
+            } else {
+                $(".fade_gx").hide();
+                $(".ts_gx").text("")
+            }
+        })
+
+
+        /*手机验证结束*/
+
+
+        /*选择日期开始*/
+
+
+        var calendar = new datePicker();
+        calendar.init({
+            'trigger': '#demo1', /*按钮选择器，用于触发弹出插件*/
+            'type': 'date', /*模式：date日期；datetime日期时间；time时间；ym年月；*/
+            'minDate': '1900-1-1', /*最小日期*/
+            'maxDate': '2100-12-31', /*最大日期*/
+            'onSubmit': function () {/*确认时触发事件*/
+                var theSelectData = calendar.value;
+                $(".rq").text(theSelectData)
+                $(".fade_gx").hide()
+                $(".ts_gx").text("")
+
+            },
+            'onClose': function () {/*取消时触发事件*/
+            }
+        });
+        /*选择日期结束*/
+
+
+        /*提交表单*/
+
+
+        $(".chman_footer").click(function () {
+            var gx_user = $("input[name=user]").val()
+            var gx_name = $("input[name=nickname]").val()
+            var gx_phone = $("input[name=mob]").val()
+            var gx_sex = $(".age_k").text()
+            var cldar = $(".rq").text()
+            var gx_home = $(".gx_n").text()
+
+            if (gx_user == null || gx_user == undefined || gx_user == "") {
+                $(".fade_gx").show()
+                $(".ts_gx").text("姓名不能为空")
+                return false
+            }
+            if (gx_name == null || gx_name == undefined || gx_name == "") {
+                $(".fade_gx").show()
+                $(".ts_gx").text("昵称不能为空")
+                return false
+            }
+            if (gx_sex == "0") {
+                $(".fade_gx").show()
+                $(".ts_gx").text("请选择性别")
+                return false
+            }
+            if (cldar == null || cldar == "" || cldar == undefined) {
+                $(".fade_gx").show()
+                $(".ts_gx").text("请选择您的出生日期")
+                return false
+            }
+
+            if (!(/^1[34578]\d{9}$/.test(gx_phone))) {
+                $(".fade_gx").show();
+                $(".ts_gx").text("手机号码输入错误请重新输入")
+                return false
+
+            }
+
+            $.ajax({
+                type: "post",
+                url: "http://www.flyxiu.com/api/user/mine/add_child",
+                headers: {
+                    'XX-Device-Type': $.cookie('device_type'),
+                    'XX-Token': $.cookie('token'),
+                },
+                data: ({
+                    "name": gx_user,
+                    "nickname": gx_name,
+                    "sex": gx_sex,
+                    "date": cldar,
+                    "relation_id": gx_home,
+                    "phone": gx_phone
+                }),
+                success: function (data) {
+                    if (data.code == 1) {
+                        $(".fade_gx").show()
+                        $(".ts_gx").text(data.msg + '(请稍等)')
+                        setTimeout(function () {
+                            window.location.href = "usercenter.html";
+                        }, 1000);
+                    }
+
+                }
+
+            })
+
+
+        })
+
+
+        /*提交表单结束*/
+
+    })
+
+
+</script>
+
+</body>
+
+</html>

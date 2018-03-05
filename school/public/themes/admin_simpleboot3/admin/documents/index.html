@@ -1,0 +1,41 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('Documents/index')}">文档列表</a></li>
+			<li><a href="{:url('Documents/add')}">添加文档</a></li>
+		</ul>
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th width="40">ID</th>
+						<th align="left">文档名称</th>
+						<!--<th align="left">文档内容</th>-->
+						<th align="left">所属页面</th>
+						<th width="180" align="left">创建时间</th>
+						<th width="180" align="left">编辑时间</th>
+						<th width="160">{:lang('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<foreach name="data" item="vo">
+					<tr>
+						<td>{$vo.id}</td>
+						<td>{$vo.name}</td>
+						<!--<td>{$vo.content}</td>-->
+						<td>{$vo.catename}</td>
+						<td>{:date('Y-m-d H:i:s',$vo['create_time'])}</td>
+						<td>{:date('Y-m-d H:i:s',$vo['update_time'])}</td>
+						<td>
+							<a href="{:url('Documents/edit',array('id'=>$vo['id']))}">{:lang('EDIT')}</a>
+							<a class="js-ajax-delete" href="{:url('Documents/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+						</td>
+					</tr>
+					</foreach>
+				</tbody>
+			</table>
+	</div>
+	<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

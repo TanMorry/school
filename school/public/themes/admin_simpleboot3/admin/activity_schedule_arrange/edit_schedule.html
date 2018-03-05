@@ -1,0 +1,155 @@
+<include file="public@header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li><a href="{:url('ActivityScheduleArrange/index')}">{:lang('ADMIN_ACTIVITY_SCHEDULE_INDEX')}</a></li>
+		<li><a href="{:url('ActivityScheduleArrange/add_schedule')}">{:lang('ADMIN_ACTIVITY_SCHEDULE_ADD')}</a></li>
+		<li class="active"><a>{:lang('ADMIN_ACTIVITY_SCHEDULE_EDIT')}</a></li>
+	</ul>
+	<form class="form-horizontal js-ajax-form margin-top-20" action="{:url('ActivityScheduleArrange/edit_schedule_post')}" method="post">
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ACTIVITY_NAME')}</label>
+			<div class="col-md-6 col-sm-10">
+				<input class="form-control" id="list" list="activityList" value="{$data.title}"/>
+				<datalist id="activityList">
+					<volist name="activityList" id="vo">
+						<option value="{$vo.title}" data-id="{$vo.id}">
+					</volist>
+				</datalist>
+			</div>
+		</div>
+
+		<div class="form-group	">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ACTIVITY_SCHEME_NAME')}</label>
+			<div class="col-md-6 col-sm-10" id="scheme_list">
+				<input class="form-control" id="scheme" list="schemeList" value="{$data.name}"/>
+				<datalist id="schemeList">
+					<volist name="schemeList" id="vo">
+						<option value="{$vo.name}" data-id="{$vo.id}">
+					</volist>
+				</datalist>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="input-arrange_name" class="col-sm-2 control-label"><span class="form-required">*</span>日程名称</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" id="input-arrange_name" name="arrange_name">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ADMIN_ACTIVITY_SCHEDULE_TIME')}</label>
+			<div class="col-md-6 col-sm-10">
+				<php>
+					$starttime=date("Y-m-d H:i",$data['start_time']);
+					$endtime=date("Y-m-d H:i",$data['end_time']);
+				</php>
+				<input type="text" class="form-control js-bootstrap-datetime" name="start_time" value="{$starttime}" style="width: 140px;" autocomplete="off">-<input type="text" class="form-control js-bootstrap-datetime" name="end_time"  value="{$endtime}"  style="width: 140px;" autocomplete="off">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ACTIVITY_SRC')}</label>
+			<div class="col-md-6 col-sm-10">
+				<ul id="photos" class="pic-list list-unstyled form-inline">
+					<notempty name="photos">
+						<foreach name="photos" item="vo">
+							<php>$img_url=cmf_get_image_preview_url($vo['url']);</php>
+							<li id="saved-image{$key}">
+								<input id="photo-{$key}" type="hidden" name="photo_urls[]"
+									   value="{$vo.url}">
+								<input class="form-control" id="photo-{$key}-name" type="text"
+									   name="photo_names[]"
+									   value="{$vo.name|default=''}" style="width: 200px;" title="图片名称">
+								<img id="photo-{$key}-preview"
+									 src="{:cmf_get_image_preview_url($vo['url'])}"
+									 style="height:36px;width: 36px;"
+									 onclick="parent.imagePreviewDialog(this.src);">
+								<a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
+								<a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
+							</li>
+						</foreach>
+					</notempty>
+				</ul>
+				<a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
+				   class="btn btn-default btn-sm">选择图片</a>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="input-detail" class="col-sm-2 control-label"><span class="form-required">*</span>{:lang('ACTIVITY_SCHEDULE_DESCRIPTION')}</label>
+			<div class="col-md-6 col-sm-10">
+				<textarea type="text" class="form-control" id="input-detail" name="detail">{$data.detail}</textarea>
+			</div>
+		</div>
+
+
+		<!--<div class="form-group">-->
+		<!--<label class="col-sm-2 control-label">{:lang('STATUS')}</label>-->
+		<!--<div class="col-md-6 col-sm-10">-->
+		<!--<label class="radio-inline">-->
+		<!--<input type="radio" name="status" value="1" checked="checked"> {:lang('ENABLED')}-->
+		<!--</label>-->
+		<!--<label class="radio-inline">-->
+		<!--<input type="radio" name="status" value="0"> {:lang('DISABLED')}-->
+		<!--</label>-->
+		<!--</div>-->
+		<!--</div>-->
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<input type="hidden" name="activity_id" value="{$data.activity_id}" id="activity">
+				<input type="hidden" name="scheme_id" value="{$data.scheme_id}" id="scheme_id">
+				<input type="hidden" name="id" value="{$data.id}"/>
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    scheme_list();
+    $('#list').bind('input propertychange', function() {
+        $("#activity").val($("#activityList option[value='" + $('#list').val() + "']").attr('data-id'));
+
+        $.ajax({
+            url:"{:url('ActivityScheduleArrange/ajaxGetScheme')}",
+            data:{'activity_id':$("#activity").val()},
+            type:'GET',
+            success:function(res){
+                var str = ""
+                var data = JSON.parse(res);
+                if(res){
+                    str ='<input class="form-control" id="scheme" list="schemeList"/>\
+								<datalist id="schemeList">'
+                    for(var i=0;i<data.length;i++){
+                        str += '<option value="'+data[i]['name']+'" data-id="'+data[i]['id']+'">'
+                    }
+                    str += '</datalist>'
+                }
+                $("#scheme_list").html(str);
+                scheme_list();
+            }
+        })
+    });
+
+    function scheme_list(){
+        $("#scheme").bind('input propertychange',function(){
+            $("#scheme_id").val($("#schemeList option[value='" + $('#scheme').val() + "']").attr('data-id'));
+        })
+	}
+
+</script>
+<script type="text/html" id="photos-item-tpl">
+	<li id="saved-image{id}">
+		<input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
+		<input class="form-control" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
+			   style="width: 200px;" title="图片名称">
+		<img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;"
+			 onclick="imagePreviewDialog(this.src);">
+		<a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+		<a href="javascript:(function(){$('#saved-image{id}').remove();})();">移除</a>
+	</li>
+</script>
+</body>
+</html>

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=750px, user-scalable=true"/>
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html;"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="keywords" content="keyword ..."/>
+    <meta name="Description" content="description ..."/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/swiper.min.css"/>
+    <link rel="stylesheet" href="css/animate.min.css"/>
+
+    <script type="text/javascript" src="js/ali.js"></script>
+    <script type="text/javascript" src="js/rem.js"></script>
+    <script type="text/javascript" src="js/wechat.js"></script>
+
+    <!--      <script type="text/javascript" src="js/wex.js"></script>-->
+    <link rel="stylesheet" href="css/photoswipe.css"/>
+    <link rel="stylesheet" href="css/default-skin.css"/>
+    <link rel="stylesheet" href="css/mobile_date.css"/>
+
+
+    <title>详情</title>
+</head>
+<body>
+<form>
+    <span class="stma"></span>
+    <span class="stmb"></span>
+    <span class="stmc"></span>
+    <span class="stmd"></span>
+    <span class="stme_id"></span>
+    <span class="x_k"></span>
+    <span class="rq_day"></span>
+    <span class="rq_time"></span>
+    <div class="over_date">
+    </div>
+    <div class="over_db">
+    </div>
+
+
+    <!--/*存值*/-->
+
+    <div class="fade bounceInUp animated">
+        <div class="fade_container">
+            <div class="dte">
+                <div class="date_time">
+                    <div class="timea">时间</div>
+                    <div class="timea_btn">
+                    </div>
+                </div>
+                <div class="date_day">
+                    <div class="timeb">场次</div>
+                    <div class="timeb_btn">
+
+                    </div>
+                </div>
+                <div class="date_pvalue">
+                    <div class="timec">选择票面</div>
+                    <div class="timec_btn">
+
+                    </div>
+                </div>
+                <div class="date_number">
+                    <div>请选择购票数量</div>
+                    <div class="gp">
+                        <div class="prev">-</div>
+                        <div class="p_ber">1</div>
+                        <div class="next">+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /**款到发货**/-->
+
+    <div class="header_detail">
+        <div class="ha">
+
+        </div>
+        <div class="hb">
+
+
+        </div>
+    </div>
+    <div class="detail_content">
+        <p class="ytu">图片预览：</p>
+        <div class="tylan">
+            <div class="swiper-container">
+                <div class="my-gallery swiper-wrapper">
+
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="detail_contents">
+        <p class="ytu">项目详情：</p>
+        <label class="xq">
+
+        </label>
+
+    </div>
+    <div class="detail_contentk">
+        <p class="ytu">观众评论：</p>
+        <div class="comment_list">
+            <label class="reson">
+            </label>
+
+            <div class="dps_detail">
+                <label>查看全部<span>45</span>条评论</label>
+            </div>
+
+        </div>
+        <div class="detail_footer">
+            我要购票
+        </div>
+        <div class="detail_footers">
+            我要购票
+        </div>
+        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+            <div class="pswp__bg"></div>
+
+            <div class="pswp__scroll-wrap">
+
+
+                <div class="pswp__container">
+                    <div class="pswp__item"></div>
+                    <div class="pswp__item"></div>
+                    <div class="pswp__item"></div>
+                </div>
+
+
+                <div class="pswp__ui pswp__ui--hidden">
+
+                    <div class="pswp__top-bar">
+
+                        <div class="pswp__counter"></div>
+
+                        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                        <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                        <div class="pswp__preloader">
+                            <div class="pswp__preloader__icn">
+                                <div class="pswp__preloader__cut">
+                                    <div class="pswp__preloader__donut"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                        <div class="pswp__share-tooltip"></div>
+                    </div>
+
+                    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+                    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+
+                    <div class="pswp__caption">
+                        <div class="pswp__caption__center"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+</form>
+<script src="js/swiper.min.js"></script>
+
+<!-- Initialize Swiper -->
+<script src="js/big_img.js"></script>
+<script src="js/photoswipe-ui-default.min.js"></script>
+<script src="js/photoswipe.min.js"></script>
+<script src="js/bigImg.js"></script>
+<script src="js/jqrey.min.js"></script>
+<script type="text/javascript" src="js/cookie.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        var ary = []
+        $(".detail_footer").on('click', function () {
+            var hr = window.location.search.substr(1)
+            $.ajax({
+                type: "get",
+                url: "http://www.flyxiu.com/api/home/ticket/date_time",
+                data: ({"ticket_id": hr}),
+                headers: {
+                    'XX-Device-Type': $.cookie('device_type'),
+                    'XX-Token': $.cookie('token'),
+                },
+                success: function (data) {
+                    if (data.code == 1) {
+                        $(".fade").show()
+                        $("body").addClass("over")
+                        $(this).hide()
+                        $(".detail_footers").show()
+                        $(".next").on('click', function () {
+                            var pplesa = parseInt($(".p_ber").text());
+                            var stplc = $(".stmd").text()
+
+                            console.log(stplc)
+                            pplesa++;
+                            $(".p_ber").text(pplesa);
+                            tplza = stplc * pplesa
+                            $(".stmc").text(tplza)
+
+                        })
+                        $(".prev").on('click', function () {
+                            var pplesb = parseInt($(".p_ber").text());
+                            var stpld = $(".stmd").text()
+                            pplesb--;
+                            $(".p_ber").text(pplesb);
+                            tplzb = stpld * pplesb
+                            $(".stmc").text(tplzb)
+                            var esb = $(".p_ber").text()
+                            if (esb <= 1) {
+                                $(".p_ber").text("1");
+                                $(".stmc").text(stpld);
+                            }
+                        })
+                        var tmea = data.data.date
+                        var tmeb = data.data.time
+                        var tmec = data.data.price_and_stock
+                        console.log(tmea)
+                        $.each(tmea, function (key, val) {
+
+                            $(".timea_btn").append(
+                                '<div class="coora sta">' + tmea[key] + '</div>'
+                            )
+
+                        })
+                        $(".timea_btn div:nth-child(1)").removeClass("coora").addClass("coorb")
+
+                        var sta = $(".sta:first").text()
+                        $(".stma").text(sta)
+
+                        $(".sta").on('click', function () {
+
+                            $(this).removeClass("coora").addClass("coorb").siblings().removeClass("coorb").addClass("coora")
+                            if ($(this).hasClass("coorb")) {
+                                var checka = $(this).text()
+                                $(".stma").text(checka)
+
+
+                            }
+                            var hra = window.location.search.substr(1)
+                            var hrb = $(".stma").text()
+                            $.ajax({
+                                type: "get",
+                                url: "http://www.flyxiu.com/api/home/ticket/date_time",
+                                data: ({"ticket_id": hra, "date": hrb}),
+                                headers: {
+                                    'XX-Device-Type': $.cookie('device_type'),
+                                    'XX-Token': $.cookie('token'),
+                                },
+                                success: function (data) {
+                                    if (data.code == 1) {
+                                        $(".timeb_btn").html("")
+                                        var tmk = data.data.time
+                                        console.log(tmk)
+                                        $.each(tmk, function (key, val) {
+
+                                            $(".timeb_btn").append(
+                                                '<div class="coora stb">' + tmk[key] + '</div>'
+                                            )
+
+                                        })
+                                        $(".stb").on('click', function () {
+                                            $(this).removeClass("coora").addClass("coorb").siblings().removeClass("coorb").addClass("coora")
+                                            if ($(this).hasClass("coorb")) {
+                                                var checkb = $(this).text()
+                                                $(".stmb").text(checkb)
+                                            }
+                                            var hrc = window.location.search.substr(1)
+                                            var hrd = $(".stma").text()
+                                            var hre = $(".stmb").text()
+                                            $.ajax({
+                                                type: "get",
+                                                url: "http://www.flyxiu.com/api/home/ticket/date_time",
+                                                data: ({"ticket_id": hrc, "date": hrd, "time": hre}),
+                                                headers: {
+                                                    'XX-Device-Type': $.cookie('device_type'),
+                                                    'XX-Token': $.cookie('token'),
+                                                },
+                                                success: function (data) {
+
+                                                    if (data.code == 1) {
+                                                        $(".timec_btn").html("")
+                                                        var tmks = data.data.price_and_stock
+                                                        console.log(tmks)
+                                                        $.each(tmks, function (key, val) {
+                                                            if (tmec[key].stock == 0) {
+                                                                $(".timec_btn").append(
+                                                                    '<div class="coorc stc"><span data-number="' + tmks[key].stock + '" data-id="' + tmks[key].price_id + '" class="price">' + tmks[key].price + '</span><span>票面</span></div>'
+                                                                )
+                                                            } else {
+                                                                $(".timec_btn").append(
+                                                                    '<div class="coora stc"><span data-number="' + tmks[key].stock + '" data-id="' + tmks[key].price_id + '" class="price">' + tmks[key].price + '</span><span>票面</span></div>'
+                                                                )
+
+                                                            }
+
+                                                        })
+                                                        $(".stc").on('click', function () {
+                                                            $(this).removeClass("coora").addClass("coorb").siblings().removeClass("coorb").addClass("coora")
+                                                            if ($(this).hasClass("coorb")) {
+                                                                var checkc = $(this).find(".price").text()
+                                                                var chek = $(this).find(".price").attr("data-id")
+                                                                console.log(chek)
+                                                                $(".stme_id").text(chek)
+                                                                $(".stmc").text(checkc)
+
+
+                                                            }
+                                                        })
+
+                                                    }
+
+                                                }
+
+                                            })
+
+                                        })
+
+
+                                    }
+
+                                }
+
+                            })
+
+                        })
+                        $.each(tmeb, function (key, val) {
+
+                            $(".timeb_btn").append(
+                                '<div class="coora stb">' + tmeb[key] + '</div>'
+                            )
+
+                        })
+                        $(".timeb_btn div:nth-child(1)").removeClass("coora").addClass("coorb")
+                        var stb = $(".stb:first").text()
+                        $(".stmb").text(stb)
+                        $(".stb").on('click', function () {
+                            $(this).removeClass("coora").addClass("coorb").siblings().removeClass("coorb").addClass("coora")
+                            if ($(this).hasClass("coorb")) {
+                                var checkb = $(this).text()
+                                $(".stmb").text(checkb)
+                            }
+
+                        })
+                        $.each(tmec, function (key, val) {
+                            if (tmec[key].stock == 0) {
+                                $(".timec_btn").append(
+                                    '<div class="coorc stc"><span data-number="' + tmec[key].stock + '" data-id="' + tmec[key].price_id + '" class="price">' + tmec[key].price + '</span><span>票面</span></div>'
+                                )
+                            } else {
+                                $(".timec_btn").append(
+                                    '<div class="coora stc"><span data-number="' + tmec[key].stock + '" data-id="' + tmec[key].price_id + '" class="price">' + tmec[key].price + '</span><span>票面</span></div>'
+                                )
+
+                            }
+
+
+                        })
+
+                        $(".timec_btn div:nth-child(1)").removeClass("coora").addClass("coorb")
+                        var stc = $(".price:first").text()
+                        console.log(stc)
+                        var stca = $(".price:first").attr("data-id")
+                        console.log(stca)
+                        $(".stme_id").text(stca)
+                        $(".stmc").text(stc)
+                        $(".stmd").text(stc)
+                        $(".stc").on('click', function () {
+                            $(this).removeClass("coora").addClass("coorb").siblings().removeClass("coorb").addClass("coora")
+                            if ($(this).hasClass("coorb")) {
+                                var checkc = $(this).find(".price").text()
+                                var chek = $(this).find(".price").attr("data-id")
+                                console.log(chek)
+                                $(".stme_id").text(chek)
+                                $(".stmc").text(checkc)
+
+
+                            }
+                        })
+
+
+                    }
+
+                }
+
+            })
+
+        })
+
+
+        /*数据存储处理*/
+
+        /*控制评论展示条数开始*/
+
+        var CRT = 3;
+        jQuery(function ($) {
+            $(".comment_list div").filter("div:gt(" + (5 - 1) + ")").hide().filter(":last").show().click(function () {
+                $(this).siblings("div:gt(" + (CRT - 1) + ")").toggle();
+            });
+        });
+
+        /*控制评论展示结束*/
+
+
+        $(".btn_dk").on('click', function () {
+            var tdt = $(this).text();
+            $(".rq_time").text(tdt)
+            $(this).addClass("btn_der").siblings().removeClass("btn_der")
+
+        })
+
+        $(".detail_footers").on('click', function () {
+            var hzra = $(".detail_bt").attr("data-id")
+            var hzrb = $(".p_ber").text()
+            var tza = $(".stma").text()
+            var tzb = $(".detail_bt p:nth-child(1)").text()
+            var tzc = $(".detail_bt p:last-child  span").text()
+            var tzd = $(".stmc").text()
+            var tze = $(".stme_id").text()
+            ary.push(tza, tzb, tzc, tzd, tze, hzra, hzrb)
+            console.log(ary)
+            ary = JSON.stringify(ary);
+            console.log(ary)
+            localStorage.setItem("ary", ary);
+            window.location = "order.html"
+        })
+
+
+        /*表单存值*/
+
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 3.5,
+            slidesPerView: 'auto',
+            spaceBetween: 30,
+            paginationType: 'fraction'
+        });
+
+    })
+
+
+    /*数据对接*/
+    var url = window.location.search.substr(1)
+
+    $.ajax({
+        type: "get",
+        url: "http://www.flyxiu.com/api/home/ticket/index",
+        data: ({"type": "detail", "id": url}),
+        headers: {
+            'XX-Device-Type': $.cookie('device_type'),
+            'XX-Token': $.cookie('token'),
+        },
+        success: function (data) {
+            var tema = data.data
+            if (data.code == 1) {
+                $.each(tema, function (key, val) {
+                    var temb = tema[key].img_src
+                    $(".ha").append(
+                        '<img src="' + tema[key].banner + '" />' +
+                        '<div data-id="' + tema[key].id + '" class="detail_bt">' +
+                        '<p>' + tema[key].title + '</p>' +
+                        '<p>评分:<span>' + tema[key].average + '</span><label>分</label></p>' +
+                        '<p>适合年龄: <span>' + tema[key].age + '</span><label>岁</label></p>' +
+                        '<p>演出时间: <span>' + tema[key].show_time + '</span></p>' +
+                        '<p>演出地点: <span>' + tema[key].show_addr + '</span></p>' +
+                        '</div>'
+                    )
+                    /**头部数据对接**/
+
+                    $(".hb").append(
+                        '<p class="tjan">推荐理由</p>' +
+                        '<p class="tjan_text">' + tema[key].reason + '</p>' +
+                        '<div class="mlook"><span>想看</span></div>'
+                    )
+                    /**详情 数据对接**/
+                    $(".xq").append(
+                        '<P class="detail_text tog">' + tema[key].detail + '<p class="detail_jant">∨</p>' + '</P>'
+                    )
+
+                    /**头部理由对接**/
+                    $.each(temb, function (key, val) {
+                        $(".my-gallery").append(
+                            '<div class="swiper-slide">' +
+                            '<a href="' + temb[key].url + '"  data-size="1024x1024">' +
+                            '<img src="' + temb[key].url + '" width="160" height="160" />' +
+                            '</a>' +
+                            '</div>'
+                        )
+
+
+                    })
+
+
+                })
+
+
+                $(function () {
+                    /*获取想要状态*/
+                    var urls = window.location.search.substr(1)
+                    $.ajax({
+                        type: "get",
+                        url: "http://www.flyxiu.com/api/home/ticket/like",
+                        data: ({"ticket_id": urls}),
+                        headers: {
+                            'XX-Device-Type': $.cookie('device_type'),
+                            'XX-Token': $.cookie('token'),
+                        },
+                        success: function (data) {
+                            console.log(data.data)
+//                  	$(".x_k").text(data.data.id)
+                            if (data.code == 1) {
+                                if (data.data == null) {
+                                    $(".mlook").removeClass("kob")
+                                } else {
+                                    $(".mlook").addClass("kob")
+                                }
+                            }
+
+                        }
+
+                    })
+
+
+                    /*获取想要状态结束*/
+
+
+                    /**评论列表**/
+
+                    $.ajax({
+                        type: "get",
+                        url: "http://www.flyxiu.com/api/home/ticket/com_list",
+                        data: ({"id": urls}),
+                        headers: {
+                            'XX-Device-Type': $.cookie('device_type'),
+                            'XX-Token': $.cookie('token'),
+                        },
+                        success: function (data) {
+                            console.log(data.data)
+                            var tm = data.data
+                            var content = '';
+                            for (var i = 0; i < tm.length; i++) {
+                                if (tm[i].com_star == 1) {
+                                    content += '<div>';
+                                    content += '<img src="' + tm[i].avatar + '"/>';
+                                    content += '<p>' + tm[i].weixin_nickname + '</p>';
+                                    content += '<div class="xg_list">';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_16.png"/>';
+                                    content += '<img src="images/blxqh5pw_16.png"/>';
+                                    content += '<img src="images/blxqh5pw_16.png"/>';
+                                    content += '<img src="images/blxqh5pw_16.png"/>';
+                                    content += '</div>';
+                                    content += '<p class="pl_text togs">' + tm[i].com + '</p>';
+                                    content += '</div>';
+                                }
+                                if (tm[i].com_star == 2) {
+                                    content += '<div>';
+                                    content += '<img src="' + tm[i].avatar + '"/>';
+                                    content += '<p>' + tm[i].weixin_nickname + '</p>';
+                                    content += '<div class="xg_list">';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_16.png"/>';
+                                    content += '<img src="images/blxqh5pw_16.png"/>';
+                                    content += '<img src="images/blxqh5pw_16.png"/>';
+                                    content += '</div>';
+                                    content += '<p class="pl_text togs">' + tm[i].com + '</p>';
+                                    content += '</div>';
+
+                                }
+                                if (tm[i].com_star == 3) {
+                                    content += '<div>';
+                                    content += '<img src="' + tm[i].avatar + '"/>';
+                                    content += '<p>' + tm[i].weixin_nickname + '</p>';
+                                    content += '<div class="xg_list">';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_16.png"/>';
+                                    content += '<img src="images/blxqh5pw_16.png"/>';
+                                    content += '</div>';
+                                    content += '<p class="pl_text togs">' + tm[i].com + '</p>';
+                                    content += '</div>';
+                                }
+                                if (tm[i].com_star == 4) {
+                                    content += '<div>';
+                                    content += '<img src="' + tm[i].avatar + '"/>';
+                                    content += '<p>' + tm[i].weixin_nickname + '</p>';
+                                    content += '<div class="xg_list">';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_16.png"/>';
+                                    content += '</div>';
+                                    content += '<p class="pl_text togs">' + tm[i].com + '</p>';
+                                    content += '</div>';
+                                }
+                                if (tm[i].com_star == 5) {
+                                    content += '<div>';
+                                    content += '<img src="' + tm[i].avatar + '"/>';
+                                    content += '<p>' + tm[i].weixin_nickname + '</p>';
+                                    content += '<div class="xg_list">';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '<img src="images/blxqh5pw_13.png"/>';
+                                    content += '</div>';
+                                    content += '<p class="pl_text togs">' + tm[i].com + '</p>';
+                                    content += '</div>';
+                                }
+
+
+                            }
+                            $(".reson").html(content)
+
+
+                        }
+
+                    })
+
+
+                });
+
+
+                /**评论列表结束**/
+
+
+                /*点击想看*/
+
+                $(".mlook").on('click', function () {
+                    $(this).toggleClass("kob")
+                    if ($(this).hasClass("kob")) {
+
+                        $.ajax({
+                            type: "get",
+                            url: "http://www.flyxiu.com/api/home/ticket/setLike",
+                            data: ({"ticket_id": url}),
+                            headers: {
+                                'XX-Device-Type': $.cookie('device_type'),
+                                'XX-Token': $.cookie('token'),
+                            },
+                            success: function (data) {
+                                if (data.code == 1) {
+                                    console.log(data)
+                                    $(".x_k").text(data.data.id)
+                                }
+
+
+                            }
+
+                        })
+
+
+                    } else {
+                        var pid = $(".x_k").text()
+                        $.ajax({
+                            type: "get",
+                            url: "http://www.flyxiu.com/api/home/ticket/unsetLike",
+                            data: ({"id": pid}),
+                            headers: {
+                                'XX-Device-Type': $.cookie('device_type'),
+                                'XX-Token': $.cookie('token'),
+                            },
+                            success: function (data) {
+                                console.log(data)
+                            }
+
+                        })
+
+                    }
+
+
+                })
+
+
+//                		/点击下拉显示更多/
+                $(".detail_jant").on('click', function () {
+                    $(this).siblings(".detail_text").toggleClass("tog")
+                })
+                $(".pl_text").on('click', function () {
+                    $(this).toggleClass("togs")
+                })
+                $(".dps_detail").on('click', function () {
+                    $(".pl_text ").toggleClass("togs")
+                })
+            }
+
+        }
+
+
+    })
+
+</script>
+</body>
+</html>

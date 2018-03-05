@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=750px, user-scalable=true"/>
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html;"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="keywords" content="keyword ..."/>
+    <meta name="Description" content="description ..."/>
+    <link rel="stylesheet" href="css/animate.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script type="text/x-javascript" src="js/jqrey.min.js"></script>
+    <script type="text/javascript" src="js/ali.js"></script>
+    <script src="js/rem.js"></script>
+    <script type="text/javascript" src="js/wechat.js"></script>
+    <script type="text/javascript" src="js/cookie.js"></script>
+    <!--          <script type="text/javascript" src="js/wex.js"></script>-->
+    <title>曝力校区</title>
+</head>
+<body class="yc_scroll">
+<div class="fade_list bounceInUp animated">
+    <span class="ts_list "></span>
+</div>
+<div class="tk_header">
+    <div class="tk">
+        <div class="tk_left"><</div>
+        <div class="tk_center">票务</div>
+        <div class="tk_right">
+            <select>
+                <option>上海</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="list">
+    <div class="tk_list">
+
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var page = 2
+        $.ajax({
+            type: "get",
+            url: "http://www.flyxiu.com/api/home/ticket/index",
+            data: ({"type": "list"}),
+            headers: {
+                'XX-Device-Type': $.cookie('device_type'),
+                'XX-Token': $.cookie('token'),
+            },
+            success: function (data) {
+
+                var tema = data.data
+                if (data.code == 1) {
+                    console.log(tema)
+                    $.each(tema, function (key, val) {
+                        $(".tk_list").append(
+                            '<div>' +
+                            '<img src="' + tema[key].banner + '" />' +
+                            '<div class="img_list">' +
+                            '<p>' + tema[key].title + '</p>' +
+                            '<p>' + tema[key].average + '</p>' +
+                            '<p>适合年龄<span>' + tema[key].age + '</span>岁</p>' +
+                            '<div class="janjie">' +
+                            '<div> 简介: </div>' +
+                            '<div>' + tema[key].detail + '</div>' +
+                            '</div>' +
+                            '<a href="detail.html?' + tema[key].id + '">' +
+                            '<input type="button" class="gpiao" value="购票" />' +
+                            '</a>' +
+                            '</div>' +
+                            '</div>'
+                        )
+
+                    })
+
+
+                }
+
+            }
+
+        })
+
+
+        /*滚动加载*/
+        $(".list").scroll(function () {
+            var h = $(this).height();
+            var sh = $(this)[0].scrollHeight;
+            var st = $(this)[0].scrollTop;
+            if (h + st >= sh - 10) {
+                $.ajax({
+                    type: "get",
+                    url: "http://www.flyxiu.com/api/home/ticket/index",
+                    data: ({"type": "list", "page": page}),
+                    headers: {
+                        'XX-Device-Type': $.cookie('device_type'),
+                        'XX-Token': $.cookie('token'),
+                    },
+                    success: function (data) {
+                        if (data.data.length == 0) {
+                            setTimeout(function () {
+                                $(".fade_list").show()
+                                $(".ts_list").text("已经没有更多了")
+                            }, 1000);
+                            setTimeout(function () {
+                                $(".fade_list").hide()
+                                $(".ts_list").text("")
+                            }, 3000);
+                        } else {
+                            $(".fade_list").hide()
+                            $(".ts_list").text("")
+                        }
+                        var tema = data.data
+                        if (data.code == 1) {
+                            console.log(tema)
+                            $.each(tema, function (key, val) {
+                                $(".tk_list").append(
+                                    '<div>' +
+                                    '<img src="' + tema[key].banner + '" />' +
+                                    '<div class="img_list">' +
+                                    '<p>' + tema[key].title + '</p>' +
+                                    '<p>' + tema[key].average + '</p>' +
+                                    '<p>适合年龄<span>' + tema[key].age + '</span>岁</p>' +
+                                    '<div class="janjie">' +
+                                    '<div> 简介: </div>' +
+                                    '<div>' + tema[key].detail + '</div>' +
+                                    '</div>' +
+                                    '<a href="detail.html?' + tema[key].id + '">' +
+                                    '<input type="button" class="gpiao" value="购票" />' +
+                                    '</a>' +
+                                    '</div>' +
+                                    '</div>'
+                                )
+
+                            })
+
+
+                        }
+
+                    }
+
+                })
+
+                page += 1
+
+
+            }
+        })
+
+    })
+</script>
+</body>
+</html>

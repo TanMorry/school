@@ -1,0 +1,66 @@
+<include file="public@header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li><a href="{:url('OrderCom/index')}">评论列表</a></li>
+		<li class="active"><a>评论详情</a></li>
+	</ul>
+	<div class="form-horizontal js-ajax-form margin-top-20">
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>商品名称</label>
+			<div class="col-md-6 col-sm-10">
+				<span class="form-control" >{$data.title}</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>评论内容</label>
+			<div class="col-md-6 col-sm-10">
+				<php>$com = cmf_replace_content_file_url(htmlspecialchars_decode($data['com']))</php>
+				{$com}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>星级</label>
+			<div class="col-md-6 col-sm-10">
+				<span class="form-control">{$data.com_star}</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>是否匿名</label>
+			<div class="col-md-6 col-sm-10">
+				<php>$nimin=$data['type']==1?'匿名':'实名'</php>
+				<span class="form-control">{$nimin}</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>是否有效</label>
+			<div class="col-md-6 col-sm-10">
+				<span class="form-control">
+					<if condition="$data['status'] eq 1">
+					<font color="red">√</font>
+					<else />
+					<font color="red">╳</font>
+				</if></span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>昵称</label>
+			<div class="col-md-6 col-sm-10">
+				<span class="form-control">{$data.weixin_nickname}</span>
+			</div>
+		</div>
+
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>创建时间</label>
+			<div class="col-md-6 col-sm-10">
+				<span class="form-control" id="input-create_time">{:date("Y-m-d H:i:s",$data['create_time'])}</span>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=750px, user-scalable=true"/>
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html;"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="keywords" content="keyword ..."/>
+    <meta name="Description" content="description ..."/>
+    <link rel="stylesheet" href="css/all.css"/>
+    <script src="js/jqrey.min.js"></script>
+    <script type="text/javascript" src="js/ali.js"></script>
+    <script type="text/javascript" src="js/rem.js"></script>
+    <script type="text/javascript" src="js/kiner-swiper-panel.min.js"></script>
+    <script type="text/javascript" src="js/jqrey.min.js"></script>
+    <script type="text/javascript" src="js/cookie.js"></script>
+
+
+    <title>待付款订单</title>
+</head>
+<body>
+
+<section class="container page-swiper-panel" id="page-swiper-panel">
+    <ul class="kinerNav">
+        <li class="active">待付款</li>
+        <li>待服务</li>
+        <li>已完成</li>
+        <div class="boxder"></div>
+    </ul>
+    <div class="box">
+        <div class="kinerContent">
+
+            <div class="wrapper">
+
+                <div class="kinerItem list-a">
+
+                    <div class="led">
+
+                    </div>
+                </div>
+                <div class="kinerItem list_b">
+                    <div class="leds">
+
+                    </div>
+
+                </div>
+                <div class="kinerItem list_c">
+                    <div class="ledsl">
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</section>
+<script type="text/javascript">
+    $(document).ready(function () {
+        /*待付款*/
+        $.ajax({
+            type: "get",
+            url: "http://www.flyxiu.com/api/user/order/order_status",
+//                  data:({"type":"wait"}),
+            headers: {
+//                'XX-Device-Type': $.cookie('device_type'),
+//                'XX-Token': $.cookie('token'),
+                'XX-Device-Type': 'weixin',
+                'XX-Token': 'd05c442e83cb4dec4b9bac49b6ea499078a36e8c9d22de1707469318e8dad3dd',
+            },
+            success: function (data) {
+                var tema = data.data.wait
+                var temb = data.data.unused
+                var temc = data.data.used
+                console.log(data)
+                if (data.code == 1) {
+                    $.each(tema, function (key, val) {
+                        $(".led").append(
+                            '<div class="list_al">' +
+                            '<a href="www.baidu.com">' +
+                            '<img src="' + tema[key].img_src.url + '" />' +
+                            '<p>' + tema[key].title + '</p>' +
+                            '<p>' + tema[key].order_time + '</p>' +
+                            '<div class="tab_dv">' +
+                            '<div>共<span>' + tema[key].num + '</span>份</div>' +
+                            '<div>实付¥<span>' + tema[key].order_money + '</span></div>' +
+                            '</a>' +
+                            '<a href="xqb.html?' + tema[key].order_id + '">' +
+                            '<div class="fk_btn">确认付款</div>' +
+                            '</a>' +
+                            '<div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>'
+                        )
+
+                    })
+                    $.each(temb, function (key, val) {
+                        $(".leds").append(
+                            '<div class="list_bl">' +
+                            '<a href="xq.html?' + temb[key].order_id + '">' +
+                            '<div class="dah">订单号<label>' + temb[key].order_id + '</label></div>' +
+                            '<img src="' + temb[key].img_src.url + '" />' +
+                            '<p>' + temb[key].title + '</p>' +
+                            '<p>' + temb[key].order_time + '</p>' +
+                            '<div class="tab_dv">' +
+                            '<div>共<span>' + temb[key].num + '</span>份</div>' +
+                            '<div>实付¥<span>' + temb[key].order_money + '</span></div>' +
+                            '</a>' +
+                            '<div>' +
+                            '<a href="xq.html?' + temb[key].order_id + '">' +
+                            '<div class="fk_btn">确认服务</div>' +
+                            '</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>'
+                        )
+                    })
+                    $.each(temc, function (key, val) {
+                        $(".ledsl").append(
+                            '<div class="list_cl">' +
+                            '<a href="xqa.html?' + temc[key].order_id + '">' +
+                            '<div class="dah">订单号<label>' + temc[key].order_id + '</label></div>' +
+                            '<img src="' + temc[key].img_src.url + '" />' +
+                            '<p>' + temc[key].title + '</p>' +
+                            '<p>' + temc[key].order_time + '</p>' +
+                            '<div class="tab_dv">' +
+                            '<div>共<span>' + temc[key].num + '</span>份</div>' +
+                            '<div>实付¥<span>' + temc[key].order_money + '</span></div>' +
+                            '</a>' +
+                            '<div>' +
+                            '<a href="evaluate.html?' + temc[key].good_id + '">' +
+                            '<div class="fk_btn">评价</div>' +
+                            '</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>'
+                        )
+                    })
+
+
+                }
+            }
+
+        })
+
+        /*待付款结束*/
+// 	$.ajax({
+//                  type: "get",
+//                  url: "http://tltltl.free.ngrok.cc/baolixiaoqu/public/api/user/order/order_status",
+//                  data:({"type":"unused"}),
+//                     headers:{
+//               	"XX-Device-Type":"weixin",
+//               	"XX-Token":"a93b8cf874fc9c064ad5112550291f5d957e5bbf5842859522362edb76051df7"
+//                },
+//                  success: function(data) {
+//                  	var tema =data.data
+//                  	console.log(tema)
+//                  	if(data.code==1){
+//                  		
+//                  		
+//                  		
+//                  	}
+//                  }
+//                  
+//                })
+
+
+        /*数据对接*/
+        var url = window.location.search.substr(1)
+        console.log(url)
+        if (url == "72") {
+            $(".kinerNav li:nth-child(3)").click()
+        }
+        if (url == "1") {
+            $(".kinerNav li:nth-child(1)").click()
+        }
+        if (url == "2") {
+            $(".kinerNav li:nth-child(2)").click()
+        }
+        if (url == "3") {
+            $(".kinerNav li:nth-child(3)").click()
+        }
+
+
+        $(".kinerNav li:nth-child(1)").on('click', function () {
+            $(".boxder").animate({left: "11%"})
+
+        })
+        $(".kinerNav li:nth-child(2)").on('click', function () {
+            $(".boxder").animate({left: "44%"})
+        })
+        $(".kinerNav li:nth-child(3)").on('click', function () {
+            $(".boxder").animate({left: "77%"})
+        })
+    })
+
+</script>
+</body>
+</html>

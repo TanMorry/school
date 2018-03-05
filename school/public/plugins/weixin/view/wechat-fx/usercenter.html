@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=750px, user-scalable=true"/>
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html;"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="keywords" content="keyword ..."/>
+    <meta name="Description" content="description ..."/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script type="text/javascript" src="js/ali.js"></script>
+    <script type="text/javascript" src="js/jqrey.min.js"></script>
+    <script type="text/javascript" src="js/cookie.js"></script>
+
+    <script src="js/rem.js"></script>
+    <script type="text/javascript" src="js/wechat.js"></script>
+    <title></title>
+</head>
+<body>
+<div class="center_header">
+    <div class="center__integral">
+        <div class="center_port">
+
+
+        </div>
+        <div class="center_ints">
+
+        </div>
+    </div>
+    <div class="bl_hy">
+        加入暴力校区VIP会员专享特权
+    </div>
+</div>
+<div class="center_content">
+    <div class="center_swp">
+        <ul>
+            <a href="unpaid.html?1">
+                <li>
+                    <img src="images/mine_03.png"/>
+                    <p class="fkuan">待付款</p>
+                </li>
+            </a>
+            <a href="unpaid.html?2">
+                <li>
+                    <img src="images/mine_05.png"/>
+                    <p class="fkuan">待服务</p>
+                </li>
+            </a>
+            <a href="unpaid.html?3">
+                <li>
+                    <img src="images/mine_07.png"/>
+                    <p class="fkuan">待评价</p>
+                </li>
+            </a>
+        </ul>
+    </div>
+    <div class="center_list">
+        <div>
+            <a href="chman.html">
+                <div>
+                    <img src="images/mine_13.png"/>
+                    <p>童乐会<label class="tz">></label></p>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a>
+                <div>
+                    <img src="images/mine_16.png"/>
+                    <p>积分兑换<label class="tz">></label></p>
+                </div>
+            </a>
+
+        </div>
+        <div>
+            <a href="dzgl.html">
+                <div>
+                    <img src="images/min_88.png"/>
+                    <p>地址管理<label class="tz">></label></p>
+                </div>
+            </a>
+
+        </div>
+        <div>
+            <a href="help_center.html">
+                <div>
+                    <img src="images/mine_18.png"/>
+                    <p>帮助中心<label class="tz">></label></p>
+                </div>
+            </a>
+
+        </div>
+        <div>
+            <a href="feedback.html">
+                <div>
+                    <img src="images/mine_21.png"/>
+                    <p>意见反馈<label class="tz">></label></p>
+                </div>
+            </a>
+
+        </div>
+
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "get",
+            url: "http://www.flyxiu.com/api/user/profile/userInfo",
+            headers: {
+                "XX-Device-Type":"weixin",
+                "XX-Token":"d05c442e83cb4dec4b9bac49b6ea499078a36e8c9d22de1707469318e8dad3dd"
+//                'XX-Device-Type': $.cookie('device_type'),
+//                'XX-Token': $.cookie('token'),
+            },
+            success: function (data) {
+                if (data.code == 1) {
+                    console.log(data)
+                    var data = data.data
+                    console.log(data)
+
+
+                    $(".center_port").append(
+                        '<img src="' + data.avatar + '" />' +
+                        '<p><span>' + data.weixin_nickname + '</span></p>' +
+                        '<img class="blxq" src="images/blxq.png" />'
+                    )
+                    $(".center_ints").append(
+                        '<div>' +
+                        '<p>' + data.score + '<span>分</span></p>' +
+                        '<p class="pwp">可用积分</p>' +
+                        '</div>' +
+                        '<div>' +
+                        '<p>' + data.all_score + '<span>分</span></p>' +
+                        '<p class="pwp">全部积分</p>' +
+                        '</div>' +
+                        '<div>' +
+                        '<p>' + data.score + '<span>个</span></p>' +
+                        '<p class="pwp">优惠券</p>' +
+                        '</div>'
+                    )
+
+
+                }
+
+            }
+
+        })
+
+
+    })
+</script>
+</body>
+</html>

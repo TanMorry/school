@@ -1,0 +1,136 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=750px, user-scalable=true"/>
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html;"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="keywords" content="keyword ..."/>
+    <meta name="Description" content="description ..."/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script type="text/javascript" src="js/ali.js"></script>
+    <script type="text/javascript" src="js/jqrey.min.js"></script>
+    <script type="text/javascript" src="js/cookie.js"></script>
+    <script src="js/rem.js"></script>
+    <title>微信支付</title>
+    <style type="text/css">
+        *{margin:0;padding:0;}
+        ul,ol{list-style:none;}
+        body{background:#f5f5f5;}
+        .fukuan-top{width:100%;height:auto;background:#f5f5f5;overflow: hidden}
+        .fukuan-top .zhanghao{font-size:1.2rem;font-weight:normal;color:#282828;text-align:center;line-height: 3rem;padding-top: 2rem;}
+        .fukuan-top .jiage{font-size:2.6rem;color:#de0000;text-align:center;line-height: 5rem;padding-bottom: 1rem;}
+        .fukuan-top .shoukuan{width:100%;padding:1.3rem 0.6rem;line-height: 0.2rem;height:0.2rem;font-size:1rem;color:#c4c4c4;display: -webkit-box}
+        .fukuan-top .shoukuan .lef{display:inline-block;}
+        .fukuan-top .shoukuan .rig{display:inline-block;padding-right:1.3rem;}
+        .fukuan-top .btn01{width:70%;padding:0.3rem 0;display:block;background:#fe0000;text-align:center;margin:1.6rem auto;color:#fff;font-size:1.6rem;border-radius:0.2rem;line-height: 2.6rem;border:0px;}
+        .fukuan-top .btn02{width:70%;padding:0.3rem 0;box-sizing:border-box;display:block;background:#4bca00;text-align:center;margin:1.6rem auto;color:#fff;font-size:1.6rem;border-radius:0.2rem;line-height: 2.6rem;border:0px;}
+        .stone{background:#fff;box-sizing:border-box;overflow: hidden;}
+        .center{width: 100%;overflow: hidden}
+    </style>
+</head>
+<body>
+
+<div class="fukuan-top">
+    <h3 class="zhanghao" id="zhanghao" data-gamename="tl">test-Tl</h3>
+    <h1 class="jiage" id="price" data-price="0.01">1分</h1>
+    <h1 class="jiage" id="info" data-info="游戏描述">1分</h1>
+    <h1 class="jiage" id="num" data-num="11">1分</h1>
+    <h1 class="jiage" id="product" data-product="产品名">1分</h1>
+    <h1 class="jiage" id="pro_id" data-id="2">产品id</h1>
+    <div class="stone">
+        <div class="shoukuan">
+            <span class="lef">收款方</span>
+            <span class="rig">Kidstone</span>
+        </div>
+    </div>
+    <div align="center" class="center">
+        <button class="btn02" type="button" onclick="pay()" >立即支付</button>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+
+    function pay(){
+        var prepay={};
+        prepay['date_id'] = 69;
+        prepay['ticket_id'] = 73;
+        prepay['pay_way'] = 1;
+        prepay['num'] = 2;
+        prepay['phone'] = 18225692750;
+        prepay['type'] = 2;
+//        var url = "http://www.flyxiu.com/api/user/payway/submitOrder"
+        var url = "http://localhost/baolixiaoqu/public/api/user/payway/submitOrder"
+
+        $.ajax({
+            url:url,
+            headers: {
+                'XX-Device-Type': 'weixin',
+                'XX-Token': 'a93b8cf874fc9c064ad5112550291f5d957e5bbf5842859522362edb76051df7',
+            },
+            data:prepay,
+            type:'get',
+            jsonpCallback:"successCallback",
+            dataType:'jsonp',
+            success:function(res){
+                if(res.status == 'ok'){
+                    callpay(res.data);
+                }else{
+                    alert(res.data);
+                }
+            },
+            error:function(){
+                alert('请求失败');
+            }
+        })
+
+    }
+
+
+    /*-----------------以下为调起支付弹框------------------*/
+    function jsApiCall(paydata)
+    {
+        var a = paydata;
+//return false;
+        console.log(a.appId+'  '+a.timeStamp+' '+a.nonceStr+' '+a.package+' '+a.signType+' '+a.paySign)
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',{
+                "appId":a.appId,     //公众号名称，由商户传入     
+                "timeStamp":a.timeStamp,         //时间戳，自1970年以来的秒数     
+                "nonceStr":a.nonceStr, //随机串     
+                "package":a.package,
+                "signType":a.signType,         //微信签名方式：     
+                "paySign":a.paySign//微信签名 
+
+            },
+            function(res) {
+                //console.log('res = '+res);
+                WeixinJSBridge.log(res.err_msg);
+                if(res.err_msg == "get_brand_wcpay_request:ok"){
+                    window.location.href='ticket.html';
+                }
+            }
+        )
+    }
+
+    function callpay(paydata)
+    {
+        //alert(paydata)
+        if (typeof WeixinJSBridge == "undefined"){
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+            }
+        }else{
+            jsApiCall(paydata);
+        }
+    }
+</script>

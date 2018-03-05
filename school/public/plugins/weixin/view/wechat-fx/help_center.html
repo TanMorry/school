@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=750px, user-scalable=true"/>
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html;"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="keywords" content="keyword ..."/>
+    <meta name="Description" content="description ..."/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/animate.min.css"/>
+    <script type="text/javascript" src="js/jqrey.min.js"></script>
+    <script type="text/javascript" src="js/ali.js"></script>
+    <script type="text/jscript" src="js/rem.js"></script>
+    <script type="text/javascript" src="js/cookie.js"></script>
+
+    <title></title>
+    <style>
+        .container {
+            font-size: 0.3rem !important;
+            padding: 0.26rem;
+        }
+    </style>
+</head>
+<body>
+<diV class="container">
+
+</diV>
+
+</body>
+<script>
+    $(document).ready(function () {
+        var a = "help"
+        $.ajax({
+            type: "get",
+            url: "http://www.flyxiu.com/api/home/index/documents",
+            data: ({"type": a}),
+            success: function (data) {
+                console.log(data)
+                if (data.code == 1) {
+                    $(".container").html(data.data)
+                }
+
+            }
+
+        })
+
+
+    })
+</script>
+</html>

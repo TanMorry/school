@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+    <include file="public/head"/>
+    <title>微信公共平台后台</title>
+    <meta name="description" content="微信公共平台后台">
+    <meta name="keywords" content="微信公共平台后台">
+    
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>微信公共平台--永久素材管理</a></li>
+    </ul>
+    <div class="common-form">
+        <div class="well">
+            <include file="public/nav"/>                      
+        </div>
+        <h4>永久素材列表</h4>
+        <hr>
+        <div class="btn btn-default" id="" style="margin-right:2px;margin-bottom:4px;">新建</div>
+        <hr>
+        <table class="table table-bordered">
+           
+            <thead>
+                <tr>
+                    <th>接受消息类型</th>
+                    <th>关键标识</th>
+                    <th>回复消息类型</th>
+                    <th>回复内容</th>                
+                    <th>操作</th>                
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="list" id="vo">
+                <tr>
+                    <td>{$vo.intype}</td>
+                    <td>{$vo.mark}</td>
+                    <td>{$vo.outtype}</td>
+                    <td>{$vo.content}</td>
+                    <td>
+                        <div class="btn btn-default del" style="margin-right:2px;margin-bottom:4px;" void="{$vo.id}">删除</div>
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>  
+    </div>
+</div>
+
+<include file="public/scripts"/>
+</body>
+<script type="text/javascript">
+   
+</script>
+</html>

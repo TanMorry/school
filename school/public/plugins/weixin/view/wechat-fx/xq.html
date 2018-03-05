@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=750px, user-scalable=true"/>
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html;"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="keywords" content="keyword ..."/>
+    <meta name="Description" content="description ..."/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/animate.min.css"/>
+    <script type="text/javascript" src="js/ali.js"></script>
+    <script type="text/jscript" src="js/rem.js"></script>
+    <script type="text/javascript" src="js/jqrey.min.js"></script>
+    <script type="text/javascript" src="js/cookie.js"></script>
+    <title>待服务</title>
+</head>
+<body class="corder_back bod">
+<div class="xq_header">
+    <div>
+        <img src="images/blxqh5_19.png"/>
+        <p>待付款</p>
+    </div>
+    <div class="xq_bg"></div>
+    <div>
+        <img src="images/blxqh5_09.png"/>
+        <p class="cool">待服务</p>
+    </div>
+    <div class="xq_bg"></div>
+    <div>
+        <img src="images/blxqh5_17.png"/>
+        <p>待评价</p>
+    </div>
+</div>
+<div class="xq_conatiner_a">
+
+
+</div>
+<div class="xq_conatiner_b">
+
+</div>
+<div class="xq_conatiner_c">
+    <p>实付</p>
+    <p><label>¥</label><span class="jgl">129</span></p>
+</div>
+
+</body>
+<script>
+    $(document).ready(function () {
+        /*支付数据结束*/
+        var hr = window.location.search.substr(1)
+        console.log(hr)
+        $.ajax({
+            type: "get",
+            url: "http://www.flyxiu.com/api/user/order/order_detail",
+            data: ({"order_id": hr}),
+            headers: {
+                'XX-Device-Type': $.cookie('device_type'),
+                'XX-Token': $.cookie('token'),
+            },
+            success: function (data) {
+                if (data.code == 1) {
+                    var data = data.data
+                    console.log(data)
+                    $.each(data, function (key, val) {
+                        if (data[key].price == null) {
+                            data[key].price = ""
+                        }
+                        $(".xq_conatiner_a").append(
+                            '<p><label>订单号： <span class="ddhao" data-id="' + data[key].good_id + '">' + data[key].order_id + '</span></label></p>' +
+                            '<p><label>订单创建时间：<span>' + data[key].order_time + '</span></label></p>' +
+                            '<img src="' + data[key].img_src.url + '" />' +
+                            '<div class="xq_title">' + data[key].title + '</div>' +
+                            '<div class="xq_title">' +
+                            '<label>演出时间：</label><span>' + data[key].show_time + '</span></div>' +
+                            '<div class="xq_title"><label>演出地点：</label><span>' + data[0].show_addr + '</span></div>'
+                        )
+                        $(".xq_conatiner_b").append(
+                            '<div><label>邮寄方式：</label> <label>' + data[key].order_status + '</label></div>' +
+                            '<div><label>收货人：</label> <span>' + data[key].consignee_name + '</span></div>' +
+                            '<div><label>电话号码：</label> <span>' + data[key].consignee_phone + '</span></div>' +
+                            '<div><label>收货地址：</label> <span>' + data[key].consignee_addr + '</span></div>'
+                        )
+
+                        $(".jgl").text(data[key].price)
+                    })
+
+
+                }
+            }
+
+        })
+
+
+    })
+
+</script>
+</html>

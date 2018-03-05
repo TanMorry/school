@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+<head>
+    <include file="public/head"/>
+    <title>微信公共平台后台</title>
+    <meta name="description" content="微信公共平台后台">
+    <meta name="keywords" content="微信公共平台后台">
+    
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>微信公共平台</a></li>
+    </ul>
+    <div class="common-form">
+        <div class="well">
+            <include file="public/nav"/>                      
+        </div>
+        <h4>用户标签</h4>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <button class="btn btn-default" id="newtags">新建用户标签</button>
+            </li>
+            <volist name="tagslist" id="tag_vo">
+            <li class="list-group-item">{$tag_vo.name} [{$tag_vo.count}人] <span class="badge tags_del" tagid="{$tag_vo.id}">X</span></li>
+            </volist>
+        </ul>
+        <h4>用户列表(共有{$users.total}人)</h4>
+        <table class="table table-bordered">
+           
+            <thead>
+                <tr>
+                    <th><button class="btn btn-default" id="addtags" style="margin-right:2px;">打标签</button><button class="btn btn-default" id="untags">取消标签</button></th>
+                    <th>昵称</th>
+                    <th>头像</th>
+                    <th>分组<br/>(老版分组id)</th>
+                    <th>标签</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="users.data" id="vo">
+                <tr>
+                    <td><input type="checkbox" class="openidlist" name="openid[]" openid="{$vo.openid}"></td>
+                    <td>{$vo.nickname}</td>
+                    <td><img src="{$vo.headimgurl}" width="30" height="30" alt="没有头像"></td>
+                    <td>{$vo.groupid}</td>
+                    <td>
+                        <notempty name="vo.tagname">
+                        <volist name="vo.tagname" id="tagname_vo">
+                        [<span>{$tagname_vo}</span>]
+                        </volist>
+                        </notempty>
+                    </td>
+                    <td>{$vo.remark}</td>
+                    <td>
+                    <button openid="{$vo.openid}" action="remark">用户备注</button>
+                    </td>
+                </tr>
+            </volist>   
+            </tbody>
+        </table>  
+    </div>
+</div>
+
+<!-- 备注（Modal） -->
+<div class="modal fade" id="beizhu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">备注</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="firstname" class="col-sm-2 control-label">备注</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="remark" placeholder="请输入备注">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary remark">提交更改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新建用户标签（Modal） -->
+<div class="modal fade" id="newbiaoqian" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">新用户标签</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="firstname" class="col-sm-2 control-label">标签名</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="newtagsname" placeholder="请输入新用户标签名">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary newtags">提交更改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 打标签（Modal） -->
+<div class="modal fade" id="dabiaoqian" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">选择用户标签</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="firstname" class="col-sm-2 control-label">标签名</label>
+                    <div class="col-sm-10">
+                        <select name="tagname" id="">
+                        	<volist name="tagslist" id="tag_vo">
+                        		<option value="{$tag_vo.id}">{$tag_vo.name}</option>
+							</volist>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary addtags">提交更改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<include file="public/scripts"/>
+</body>
+<script type="text/javascript">
+$('#untags').click(function(){
+        $('#dabiaoqian').modal({
+            'show':true,
+            'keyboard': true
+        });
+        var ids = [];
+        $('.openidlist').each(function(index) {
+            if($(this).is(':checked')){
+                ids[index] = $(this).attr('openid');
+            }
+            
+        });
+
+        $('.addtags').click(function(){
+            var tagid = $('select[name="tagname"]').val();
+            $.post("{:cmf_plugin_url('Weixin://AdminIndex/tagsBatchunTagging')}",{ids:ids,tagid:tagid},function(data){
+                if(data.code == 1){
+                    $('#dabiaoqian').modal('hide');
+                    location.href="{:cmf_plugin_url('Weixin://AdminIndex/index')}";
+                }
+            },'json');
+        });
+    });
+
+	$('#addtags').click(function(){
+        $('#dabiaoqian').modal({
+            'show':true,
+            'keyboard': true
+        });
+        var ids = [];
+        $('.openidlist').each(function(index) {
+            if($(this).is(':checked')){
+                ids[index] = $(this).attr('openid');
+            }
+            
+        });
+
+        $('.addtags').click(function(){
+            var tagid = $('select[name="tagname"]').val();
+            $.post("{:cmf_plugin_url('Weixin://AdminIndex/tagsBatchTagging')}",{ids:ids,tagid:tagid},function(data){
+                if(data.code == 1){
+                    $('#dabiaoqian').modal('hide');
+                    location.href="{:cmf_plugin_url('Weixin://AdminIndex/index')}";
+                }
+            },'json');
+        });
+    });
+
+
+    $('#newtags').click(function(){
+        $('#newbiaoqian').modal({
+            'show':true,
+            'keyboard': true
+        });
+
+        $('.newtags').click(function(){
+            var v = $('input[name="newtagsname"]').val();
+            $.post("{:cmf_plugin_url('Weixin://AdminIndex/tagsCreate')}",{name:v},function(data){
+                if(data.code == 1){
+                    $('#newbiaoqian').modal('hide');
+                    location.href="{:cmf_plugin_url('Weixin://AdminIndex/index')}";
+                }
+            },'json');
+        });
+    });
+
+
+    $('.tags_del').click(function(){
+        var obj = $(this);
+        var tagid = obj.attr('tagid');
+        $.post("{:cmf_plugin_url('Weixin://AdminIndex/tagDelete')}",{tagid:tagid},function(data){
+            if(data.code == 1){
+                location.href="{:cmf_plugin_url('Weixin://AdminIndex/index')}";
+            }
+        },'json');
+
+    });
+
+    $('button').click(function(){
+        var obj = $(this);
+        var openid = obj.attr('openid');
+        var action = obj.attr('action');
+        switch(action){
+            case 'remark':
+                var remark = obj.parent('td').prev('td').html();
+                $('input[name="remark"]').val(remark);
+                $('#beizhu').modal({
+                    'show':true,
+                    'keyboard': true
+                });
+
+                $('.remark').click(function(event) {
+                    var v = $('input[name="remark"]').val();
+                    $.post("{:cmf_plugin_url('Weixin://AdminIndex/remark')}",{remark:v,openid:openid},function(data){
+                        if(data.code == 1){
+                            $('#beizhu').modal('hide');
+                            obj.parent('td').prev('td').html(v);
+                        }
+                    },'json');
+                });
+            break;
+            case 'tags':
+                
+            break;
+        }
+    });
+</script>
+</html>
